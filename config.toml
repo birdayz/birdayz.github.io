@@ -1,0 +1,58 @@
+baseurl = "https://example.com"
+languageCode = "en"
+title = "Joe's blog"
+theme = "kiss"
+copyright = ""
+enableUtterances = true
+googleAnalytics = ""
+# Number of posts per page
+Paginate = 20
+enableRobotsTXT = true
+
+[params.utterances]
+enabled = true
+
+[params.rss] # Adding this tag enables RSS feed
+
+includeContent = true # Includes whole content in rss
+authorName = "Johannes Bruederl" # Author full name
+authorEmail = "johannes.bruederl@gmail.com" # Author email
+
+[params.assets]
+customCSS = ["css/custom.css"]
+
+[params.info]
+adsense = "" # Adsense ID (ID only, without ca-pub-)
+enableSocial = true # Adds OpenGraph and Twitter cards
+homeTitle = "" # Title for home page
+poweredby = false # Adds powered by hugo and kiss below Copyright
+related = true # Includes related articles at the bottom of the article
+
+
+[params.opengraph.facebook]
+admins = [] # array of Facebook IDs
+appID = ""
+pageID = ""
+
+[params.opengraph.twitter]
+page = "" # Twitter Page username. If not set, params.social.twitter will be used.
+
+[params.social]
+
+twitter = ""
+github = "birdayz"
+email = "johannes.bruederl@gmail.com"
+linkedin = ""
+facebook = ""
+instagram = ""
+codepen = ""
+
+[params.matomoAnalytics]
+#siteID = 1
+#rootURL = ""
+
+[taxonomies]
+tag ="tags"
+
+[blackfriday]
+hrefTargetBlank = true
