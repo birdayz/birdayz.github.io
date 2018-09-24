@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Graalvm on Nerdy stuff</title>
-    <link>https://birdayz.github.io/tags/graalvm/</link>
+    <link>https://nerden.de/tags/graalvm/</link>
     <description>Recent content in Graalvm on Nerdy stuff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/birdayz&#34;&gt;Johannes Bruederl&lt;/a&gt; 2018</copyright>
     <lastBuildDate>Sun, 23 Sep 2018 00:41:31 +0200</lastBuildDate>
     
-	<atom:link href="https://birdayz.github.io/tags/graalvm/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nerden.de/tags/graalvm/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Building a 22 Megabytes Microservice with Java, Javalin and GraalVM</title>
-      <link>https://birdayz.github.io/posts/microservice_graalvm/</link>
+      <link>https://nerden.de/posts/microservice_graalvm/</link>
       <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
       
-      <guid>https://birdayz.github.io/posts/microservice_graalvm/</guid>
+      <guid>https://nerden.de/posts/microservice_graalvm/</guid>
       <description>Oracle&amp;rsquo;s GraalVM allows for ahead-of-time (AOT) compilation of JVM applications. This means, instead of running a JVM process to execute your application, the compiler builds a native binary. How does it work? On a very high level, a basic runtime (called SubstrateVM) is compiled into the binary, as well as the actual application. Sounds a little like Go, which also includes a small runtime for e.g. garbage collection. In this article, I&amp;rsquo;ll show how to build a small sample restful webservice with GraalVM native compilation.</description>
     </item>
     

@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Nerdy stuff</title>
-    <link>https://birdayz.github.io/categories/</link>
+    <link>https://nerden.de/categories/</link>
     <description>Recent content in Categories on Nerdy stuff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/birdayz&#34;&gt;Johannes Bruederl&lt;/a&gt; 2018</copyright>
     
-	<atom:link href="https://birdayz.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://nerden.de/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

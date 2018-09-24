@@ -3,53 +3,53 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://birdayz.github.io/posts/microservice_graalvm/</loc>
+    <loc>https://nerden.de/posts/microservice_graalvm/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://birdayz.github.io/tags/aot/</loc>
-    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://birdayz.github.io/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://birdayz.github.io/tags/graalvm/</loc>
+    <loc>https://nerden.de/tags/aot/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://birdayz.github.io/tags/java/</loc>
+    <loc>https://nerden.de/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/graalvm/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://birdayz.github.io/tags/javalin/</loc>
+    <loc>https://nerden.de/tags/java/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://birdayz.github.io/</loc>
+    <loc>https://nerden.de/tags/javalin/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://birdayz.github.io/posts/</loc>
+    <loc>https://nerden.de/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://birdayz.github.io/tags/</loc>
+    <loc>https://nerden.de/posts/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
     <priority>0</priority>
   </url>

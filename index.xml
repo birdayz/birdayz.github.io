@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Nerdy stuff</title>
-    <link>https://birdayz.github.io/</link>
+    <link>https://nerden.de/</link>
     <description>Recent content on Nerdy stuff</description>
     <generator>Hugo - gohugo.io</generator>
     <language>en</language>
     <contact>johannes.bruederl@gmail.com</contact>
     <copyright>&copy; <a href="https://github.com/birdayz">Johannes Bruederl</a> 2018</copyright>
     
-        <atom:link href="https://birdayz.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://nerden.de/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Building a 22 Megabytes Microservice with Java, Javalin and GraalVM</title>
-      <link>https://birdayz.github.io/posts/microservice_graalvm/</link>
+      <link>https://nerden.de/posts/microservice_graalvm/</link>
       <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
       <author>Johannes Bruederl</author>
-      <guid>https://birdayz.github.io/posts/microservice_graalvm/</guid>
+      <guid>https://nerden.de/posts/microservice_graalvm/</guid>
       <description></description>
       
       <content>
