@@ -170,7 +170,7 @@ java.lang.IllegalArgumentException: Class org.eclipse.jetty.servlet.ServletMappi
 &lt;p&gt;To fix this issue, we have to tell GraalVM that the class ServletMapping has to be included in the binary. Since it&amp;rsquo;s reflection and no &amp;lsquo;normal&amp;rsquo; part of the code, it didn&amp;rsquo;t detect it. There&amp;rsquo;s two possibilities to do this: code-based and JSON configuration-based. I tested both, i think i prefer the json approach but in the end it does not really matter. Add a file with the following contents to your project:
 &lt;script src=&#34;https://gist.github.com/birdayz/6ced28708961972268593737c12c0c0b.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
 
-&lt;p&gt;Note the special notation &lt;code&gt;[Lorg.eclipse.jetty.servlet.ServletMapping;&lt;/code&gt;. This is necessary because in this case, an array of ServletMapping object is being reflectively instantiated. In addition, i&amp;rsquo;ve added slf4j and Jackson classes, so they are found at runtime. In both cases, runtime errors are thrown because reflection didn&amp;rsquo;t work.
+&lt;p&gt;Note the special notation &lt;code&gt;[Lorg.eclipse.jetty.servlet.ServletMapping;&lt;/code&gt;. This is necessary because in this case, an array of ServletMapping objects is being reflectively instantiated. In addition, i&amp;rsquo;ve added slf4j and Jackson classes, so they are found at runtime. In both cases, runtime errors are thrown because reflection didn&amp;rsquo;t work.
 Also, we have to add our own classes to the reflection list. If we don&amp;rsquo;t do this, the following cryptic exception will be thrown when performing a request:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;[qtp1024494636-165] WARN io.javalin.core.ExceptionMapper - Uncaught exception
