@@ -30,13 +30,13 @@ Why would somebody even be interested in native compilation of a JVM application
 &lt;li&gt;Application startup time&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;This may not be entirely Java&amp;rsquo;s fault. We&amp;rsquo;re sadly using Spring Boot, and it is really slow. I usually have to tune my Kubernetes readiness probe to not check earlier than 20 seconds after starting the pod. And that&amp;rsquo;s for a very small application - 500 lines of code.&lt;/p&gt;
+&lt;p&gt;This may not be entirely Java&amp;rsquo;s fault. We&amp;rsquo;re using Spring Boot, and startup is really slow. I usually have to tune my Kubernetes readiness probe to not check earlier than 20 seconds after starting the pod. And that&amp;rsquo;s for a very small application - 500 lines of code.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Memory Footprint&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Let&amp;rsquo;s just say, i can&amp;rsquo;t start my Spring Boot application with less than 512MB of memory. Otherwise it&amp;rsquo;ll never finish starting up, unless i give it 2+ minutes of time. While Java and especially the JVM play a key role here (example: Object Headers), this is just as well a Framework problem.&lt;/p&gt;
+&lt;p&gt;In my experience, you don&amp;rsquo;t want to give your Spring Boot applications lass than 512MB of memory. Otherwise it can take multiple minutes to start. While Java and especially JVM overhead are to blame here, this is just as well a Framework problem. It&amp;rsquo;s no secret that Spring is very bloated and uses a lot of reflection.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Application size&lt;/li&gt;
