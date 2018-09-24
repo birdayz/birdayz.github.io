@@ -36,7 +36,7 @@ Why would somebody even be interested in native compilation of a JVM application
 &lt;li&gt;Memory Footprint&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;In my experience, you don&amp;rsquo;t want to give your Spring Boot applications lass than 512MB of memory. Otherwise it can take multiple minutes to start. While Java and especially JVM overhead are to blame here, this is just as well a Framework problem. It&amp;rsquo;s no secret that Spring is very bloated and uses a lot of reflection.&lt;/p&gt;
+&lt;p&gt;In my experience, you don&amp;rsquo;t want to give your Spring Boot applications less than 512MB of memory. Otherwise it can take multiple minutes to start. While Java and especially JVM overhead are to blame here, this is just as well a Framework problem. It&amp;rsquo;s no secret that Spring is very bloated and uses a lot of reflection.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Application size&lt;/li&gt;
