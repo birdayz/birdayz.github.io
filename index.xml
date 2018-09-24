@@ -261,15 +261,17 @@ VmRSS:     18260 kB
 &lt;p&gt;18 MB, that looks quite nice. Note that I didn&amp;rsquo;t perform any load tests, these are just some manual tests with no load. With some more requests with curl it went up to 25MB.
 The good thing: we have the luxury that we can directly compare this to the same application, but on the JVM.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-VmRSS:&#34;&gt;
-In this specific case, it&#39;s about 1/10 of memory usage.
-## Application size
-The application&#39;s fat jar is 5.7MB large and the smallest JRE is 57MB: https://hub.docker.com/r/library/openjdk/tags/. For simplicity, let&#39;s say 60MB total. The native binary is about 22MB large:
-
+&lt;pre&gt;&lt;code&gt;VmRSS:    183580 kB
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;-rwxr-xr-x 1 j0e users  22M Sep 24 01:38 graal-javalin
-```&lt;/p&gt;
+&lt;p&gt;In this specific case, it&amp;rsquo;s about &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;10&lt;/sub&gt; of memory usage.&lt;/p&gt;
+
+&lt;h2 id=&#34;application-size&#34;&gt;Application size&lt;/h2&gt;
+
+&lt;p&gt;The application&amp;rsquo;s fat jar is 5.7MB large and the smallest JRE is 57MB: &lt;a href=&#34;https://hub.docker.com/r/library/openjdk/tags/&#34; target=&#34;_blank&#34;&gt;https://hub.docker.com/r/library/openjdk/tags/&lt;/a&gt;. For simplicity, let&amp;rsquo;s say 60MB total. The native binary is about 22MB large:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-rwxr-xr-x 1 j0e users  22M Sep 24 01:38 graal-javalin
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;That&amp;rsquo;s ~ &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt; the size. That&amp;rsquo;s absolutely acceptable, and almost in range of the size of Go binaries.
 Please note that with JDK9, sizes may be smaller. So i think the advantage here exists, but may not be very large.&lt;/p&gt;

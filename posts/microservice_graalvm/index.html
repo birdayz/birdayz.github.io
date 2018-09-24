@@ -320,15 +320,17 @@ VmRSS:     18260 kB
 <p>18 MB, that looks quite nice. Note that I didn&rsquo;t perform any load tests, these are just some manual tests with no load. With some more requests with curl it went up to 25MB.
 The good thing: we have the luxury that we can directly compare this to the same application, but on the JVM.</p>
 
-<pre><code class="language-VmRSS:">
-In this specific case, it's about 1/10 of memory usage.
-## Application size
-The application's fat jar is 5.7MB large and the smallest JRE is 57MB: https://hub.docker.com/r/library/openjdk/tags/. For simplicity, let's say 60MB total. The native binary is about 22MB large:
-
+<pre><code>VmRSS:    183580 kB
 </code></pre>
 
-<p>-rwxr-xr-x 1 j0e users  22M Sep 24 01:38 graal-javalin
-```</p>
+<p>In this specific case, it&rsquo;s about <sup>1</sup>&frasl;<sub>10</sub> of memory usage.</p>
+
+<h2 id="application-size">Application size</h2>
+
+<p>The application&rsquo;s fat jar is 5.7MB large and the smallest JRE is 57MB: <a href="https://hub.docker.com/r/library/openjdk/tags/" target="_blank">https://hub.docker.com/r/library/openjdk/tags/</a>. For simplicity, let&rsquo;s say 60MB total. The native binary is about 22MB large:</p>
+
+<pre><code>-rwxr-xr-x 1 j0e users  22M Sep 24 01:38 graal-javalin
+</code></pre>
 
 <p>That&rsquo;s ~ <sup>1</sup>&frasl;<sub>3</sub> the size. That&rsquo;s absolutely acceptable, and almost in range of the size of Go binaries.
 Please note that with JDK9, sizes may be smaller. So i think the advantage here exists, but may not be very large.</p>
