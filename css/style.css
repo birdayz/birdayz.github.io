@@ -5567,7 +5567,7 @@ html {
   border-bottom-color: #2077b2;
 }
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 .content h1:not(:first-child),

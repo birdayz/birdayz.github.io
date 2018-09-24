@@ -3,17 +3,54 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://birdayz.github.io/posts/microservice_graalvm/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://birdayz.github.io/tags/aot/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://birdayz.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://birdayz.github.io/tags/graalvm/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://birdayz.github.io/tags/java/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://birdayz.github.io/tags/javalin/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://birdayz.github.io/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://birdayz.github.io/posts/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://birdayz.github.io/tags/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
     <priority>0</priority>
   </url>
   

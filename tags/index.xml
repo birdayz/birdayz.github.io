@@ -1,15 +1,52 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Nerden</title>
+    <title>Tags on Nerdy stuff</title>
     <link>https://birdayz.github.io/tags/</link>
-    <description>Recent content in Tags on Nerden</description>
+    <description>Recent content in Tags on Nerdy stuff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/birdayz&#34;&gt;Johannes Bruederl&lt;/a&gt; 2018</copyright>
+    <lastBuildDate>Sun, 23 Sep 2018 00:41:31 +0200</lastBuildDate>
     
 	<atom:link href="https://birdayz.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Aot</title>
+      <link>https://birdayz.github.io/tags/aot/</link>
+      <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
+      
+      <guid>https://birdayz.github.io/tags/aot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Graalvm</title>
+      <link>https://birdayz.github.io/tags/graalvm/</link>
+      <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
+      
+      <guid>https://birdayz.github.io/tags/graalvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://birdayz.github.io/tags/java/</link>
+      <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
+      
+      <guid>https://birdayz.github.io/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Javalin</title>
+      <link>https://birdayz.github.io/tags/javalin/</link>
+      <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
+      
+      <guid>https://birdayz.github.io/tags/javalin/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>
