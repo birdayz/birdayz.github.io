@@ -250,8 +250,7 @@ Once configured properly, it works.&lt;/p&gt;
 
 &lt;h2 id=&#34;memory-footprint&#34;&gt;Memory Footprint&lt;/h2&gt;
 
-&lt;p&gt;Measuring memory usage of a process is not very straight-forward. There&amp;rsquo;s several metrics - according so some post on Stackoverflow RSS is a good metric:
-&lt;a href=&#34;https://stackoverflow.com/questions/131303/how-to-measure-actual-memory-usage-of-an-application-or-process&#34; target=&#34;_blank&#34;&gt;https://stackoverflow.com/questions/131303/how-to-measure-actual-memory-usage-of-an-application-or-process&lt;/a&gt;
+&lt;p&gt;Measuring memory usage of a process is not very straight-forward. There&amp;rsquo;s several metrics - according so some post on  &lt;a href=&#34;Stackoverflow&#34; target=&#34;_blank&#34;&gt;https://stackoverflow.com/questions/131303/how-to-measure-actual-memory-usage-of-an-application-or-process&lt;/a&gt; RSS is a good metric:
 So let&amp;rsquo;s use check this out:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;cat /proc/7812/status
