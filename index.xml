@@ -237,7 +237,7 @@ Once configured properly, it works.&lt;/p&gt;
 &lt;code&gt;curl localhost:7000&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt; j0e@thinkpad  ~/projects/graal-javalin  master ? ⍟2  curl localhost:7000                                         ✔  33707  01:15:12 
-{&amp;quot;abc&amp;quot;:&amp;quot;LOL&amp;quot;}%
+{&amp;quot;someValue&amp;quot;:&amp;quot;Hello World!&amp;quot;}%
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Yay. And the startup time is instant. No JVM!&lt;/p&gt;
