@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Nerdy stuff</title>
@@ -7,13 +7,58 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/birdayz&#34;&gt;Johannes Bruederl&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Sun, 23 Sep 2018 00:41:31 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 12 Apr 2020 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://nerden.de/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Aot</title>
+      <title>azure eventhub</title>
+      <link>https://nerden.de/tags/azure-eventhub/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/azure-eventhub/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>eventhub</title>
+      <link>https://nerden.de/tags/eventhub/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/eventhub/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>eventhub cli</title>
+      <link>https://nerden.de/tags/eventhub-cli/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/eventhub-cli/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kaf</title>
+      <link>https://nerden.de/tags/kaf/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/kaf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kafka</title>
+      <link>https://nerden.de/tags/kafka/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/kafka/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>aot</title>
       <link>https://nerden.de/tags/aot/</link>
       <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
       
@@ -22,7 +67,7 @@
     </item>
     
     <item>
-      <title>Graalvm</title>
+      <title>graalvm</title>
       <link>https://nerden.de/tags/graalvm/</link>
       <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
       
@@ -31,7 +76,7 @@
     </item>
     
     <item>
-      <title>Java</title>
+      <title>java</title>
       <link>https://nerden.de/tags/java/</link>
       <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
       
@@ -40,7 +85,7 @@
     </item>
     
     <item>
-      <title>Javalin</title>
+      <title>javalin</title>
       <link>https://nerden.de/tags/javalin/</link>
       <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
       

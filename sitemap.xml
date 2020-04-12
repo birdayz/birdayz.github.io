@@ -1,6 +1,56 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://nerden.de/tags/azure-eventhub/</loc>
+    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/eventhub/</loc>
+    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/eventhub-cli/</loc>
+    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/kaf/</loc>
+    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/kafka/</loc>
+    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/</loc>
+    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/</loc>
+    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/kaf_azure_eventhub/</loc>
+    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/aot/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/microservice_graalvm/</loc>
+    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
+  </url>
   
   <url>
     <loc>https://nerden.de/posts/microservice_graalvm/</loc>
@@ -8,50 +58,27 @@
   </url>
   
   <url>
-    <loc>https://nerden.de/tags/aot/</loc>
-    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://nerden.de/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://nerden.de/tags/graalvm/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://nerden.de/tags/java/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://nerden.de/tags/javalin/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://nerden.de/</loc>
-    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://nerden.de/posts/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://nerden.de/tags/</loc>
-    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-    <priority>0</priority>
+    <loc>https://nerden.de/categories/</loc>
   </url>
   
 </urlset>

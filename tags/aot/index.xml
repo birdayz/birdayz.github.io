@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Aot on Nerdy stuff</title>
+    <title>aot on Nerdy stuff</title>
     <link>https://nerden.de/tags/aot/</link>
-    <description>Recent content in Aot on Nerdy stuff</description>
+    <description>Recent content in aot on Nerdy stuff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/birdayz&#34;&gt;Johannes Bruederl&lt;/a&gt; 2018</copyright>
@@ -11,6 +11,15 @@
     
 	<atom:link href="https://nerden.de/tags/aot/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Building a 22 Megabytes Microservice with Java, Javalin and GraalVM</title>
+      <link>https://nerden.de/microservice_graalvm/</link>
+      <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
+      
+      <guid>https://nerden.de/microservice_graalvm/</guid>
+      <description>Oracle&amp;rsquo;s GraalVM allows for ahead-of-time (AOT) compilation of JVM applications. This means, instead of running a JVM process to execute your application, the compiler builds a native binary. How does it work? On a very high level, a basic runtime (called SubstrateVM) is compiled into the binary, as well as the actual application. Sounds a little like Go, which also includes a small runtime for e.g. garbage collection. In this article, I&amp;rsquo;ll show how to build a small sample restful webservice with GraalVM native compilation.</description>
+    </item>
     
     <item>
       <title>Building a 22 Megabytes Microservice with Java, Javalin and GraalVM</title>

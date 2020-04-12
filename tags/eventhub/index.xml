@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>eventhub on Nerdy stuff</title>
+    <link>https://nerden.de/tags/eventhub/</link>
+    <description>Recent content in eventhub on Nerdy stuff</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/birdayz&#34;&gt;Johannes Bruederl&lt;/a&gt; 2018</copyright>
+    <lastBuildDate>Sun, 12 Apr 2020 00:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="https://nerden.de/tags/eventhub/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using kaf for Azure EventHub</title>
+      <link>https://nerden.de/kaf_azure_eventhub/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/kaf_azure_eventhub/</guid>
+      <description>Since kaf v0.1.35 it is now possible to interact with Azure EventHub. Kaf is a modern CLI to interact with Kafka, i.e. producing data, consuming, or viewing topic and Consumer Group information. Now having first-class support for EventHub makes EventHub much more accessible than before. In the following Example i&amp;rsquo;ll show how to set up kaf for your EventHub. It&amp;rsquo;s very simple.
+Install kaf There&amp;rsquo;s several ways to install kaf.</description>
+    </item>
+    
+  </channel>
+</rss>

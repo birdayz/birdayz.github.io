@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Nerdy stuff</title>
@@ -13,71 +12,127 @@
     
     
     <item>
-      <title>Building a 22 Megabytes Microservice with Java, Javalin and GraalVM</title>
-      <link>https://nerden.de/posts/microservice_graalvm/</link>
-      <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
+      <title>Using kaf for Azure EventHub</title>
+      <link>https://nerden.de/kaf_azure_eventhub/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0200</pubDate>
       <author>Johannes Bruederl</author>
-      <guid>https://nerden.de/posts/microservice_graalvm/</guid>
+      <guid>https://nerden.de/kaf_azure_eventhub/</guid>
       <description></description>
       
-      <content>
-
-&lt;p&gt;Oracle&amp;rsquo;s GraalVM allows for ahead-of-time (AOT) compilation of JVM applications. This means, instead of running a JVM process to execute your application, the compiler builds a native binary. How does it work? On a very high level, a basic runtime (called SubstrateVM) is compiled into the binary, as well as the actual application. Sounds a little like Go, which also includes a small runtime for e.g. garbage collection.
+      <content>&lt;p&gt;Since &lt;a href=&#34;https://github.com/birdayz/kaf/releases/tag/v0.1.35&#34;&gt;kaf v0.1.35&lt;/a&gt; it is now possible to interact with &lt;code&gt;Azure EventHub&lt;/code&gt;. Kaf is a modern CLI to interact with Kafka, i.e. producing data, consuming, or viewing topic and Consumer Group information. Now having first-class support for EventHub makes EventHub much more accessible than before. In the following Example i&amp;rsquo;ll show how to set up kaf for your EventHub. It&amp;rsquo;s very simple.&lt;/p&gt;
+&lt;h1 id=&#34;install-kaf&#34;&gt;Install kaf&lt;/h1&gt;
+&lt;p&gt;There&amp;rsquo;s several ways to install kaf.&lt;/p&gt;
+&lt;h2 id=&#34;install-script&#34;&gt;Install script&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;curl https://raw.githubusercontent.com/birdayz/kaf/master/godownloader.sh | BINDIR&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;$HOME/bin bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;via-aur&#34;&gt;Via AUR&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;yay -S kaf
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;via-go&#34;&gt;Via Go&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;go get github.com/birdayz/kaf/cmd/kaf
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;setup-eventhub&#34;&gt;Setup EventHub&lt;/h1&gt;
+&lt;p&gt;To create an EventHub, you have to first create an EventHubs namespace.
+The equivalent to a &lt;code&gt;EventHub Namespace&lt;/code&gt; in the Kafka world is a &lt;code&gt;Kafka Cluster&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This can be either done on the Portal, or via CLI:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;az eventhubs namespace create --name joe-test-2 --resource-group esp-iot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This command may take some minutes to complete.&lt;/p&gt;
+&lt;p&gt;Since quite some time, the &lt;code&gt;Kafka compatibility mode&lt;/code&gt; is enabled by default for all new EventHub Namespaces, so you don&amp;rsquo;t need to explicitly enable it.&lt;/p&gt;
+&lt;p&gt;After creating the EventHub Namespace, you have to create an &lt;code&gt;EventHub&lt;/code&gt;. The equivalent to an &lt;code&gt;EventHub&lt;/code&gt; is a &lt;code&gt;Kafka Topic&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;az eventhubs eventhub create -g esp-iot --namespace-name joe-test-2 --name iot-data
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now that we created the Namespace (Cluster) and the EventHub (Topic), we still need a way to access it. For this, a Connection String is used. It can be obtained via either Portal, or the Azure CLI:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;az eventhubs namespace authorization-rule keys list -g esp-iot --namespace-name joe-test-2 --name RootManageSharedAccessKey | jq -r &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;.primaryConnectionString&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This prints out the Connection String to your &lt;code&gt;EventHub&lt;/code&gt; Namespace.
+If you don&amp;rsquo;t have jq installed, you can omit the jq command and copy the primaryConnectionString by hand.&lt;/p&gt;
+&lt;h1 id=&#34;configure-kaf&#34;&gt;Configure kaf&lt;/h1&gt;
+&lt;p&gt;Configuring kaf to use the eventhub is very straight-forward; run the following command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kaf config add-eventhub my-eventhub --eh-connstring &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;az eventhubs namespace authorization-rule keys list -g esp-iot --namespace-name joe-test-2 --name RootManageSharedAccessKey | jq -r &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;.primaryConnectionString&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;
+Added EventHub.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note: Replace &lt;code&gt;joe-test-2&lt;/code&gt; with your &lt;code&gt;EventHub Namespace&lt;/code&gt; name.&lt;/p&gt;
+&lt;p&gt;To ensure that kaf sets your new EventHub Namespace as the active cluster, run&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kaf config use-cluster my-eventhub
+Switched to cluster &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my-eventhub&amp;#34;&lt;/span&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;run-commands&#34;&gt;Run commands&lt;/h1&gt;
+&lt;p&gt;Now you can use kaf to interact with your EventHub.&lt;/p&gt;
+&lt;p&gt;List Topics (EventHubs):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kaf topics
+NAME       PARTITIONS   REPLICAS
+iot-data   &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You see, the &lt;code&gt;EventHub&lt;/code&gt; we previously created is shown under topics.&lt;/p&gt;
+&lt;p&gt;We can go a step further. We can create a new topic, which means that a new &lt;code&gt;EventHub&lt;/code&gt; is created within this &lt;code&gt;EventHub Namespace&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kaf topic create second-topic -p &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+✅ Created topic!
+      Topic Name:            second-topic
+      Partitions:            &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+      Replication Factor:    &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+      Cleanup Policy:        delete
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;List topics:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kaf topics
+NAME           PARTITIONS   REPLICAS
+iot-data       &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+second-topic   &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;            &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Even the Azure Portal shows the created topic (EventHub):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;eventhub.png&#34; alt=&#34;&#34; title=&#34;Azure Portal&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Consuming and Producing data:&lt;/p&gt;
+&lt;p&gt;To consume, run&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kaf consume second-topic
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To produce, run&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;echo test | kaf produce second-topic
+Sent record to partition &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; at offset 0.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The consume command will output the message:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Partition:   1
+Offset:      0
+Timestamp:   2020-04-12 23:40:01.591 +0200 CEST
+test
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;cleaning-up&#34;&gt;Cleaning up&lt;/h1&gt;
+&lt;p&gt;Don&amp;rsquo;t forget to delete your EventHub if you just used it to try kaf out.&lt;/p&gt;
+</content>
+      
+    </item>
+    
+    <item>
+      <title>Building a 22 Megabytes Microservice with Java, Javalin and GraalVM</title>
+      <link>https://nerden.de/microservice_graalvm/</link>
+      <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
+      <author>Johannes Bruederl</author>
+      <guid>https://nerden.de/microservice_graalvm/</guid>
+      <description></description>
+      
+      <content>&lt;p&gt;Oracle&amp;rsquo;s GraalVM allows for ahead-of-time (AOT) compilation of JVM applications. This means, instead of running a JVM process to execute your application, the compiler builds a native binary. How does it work? On a very high level, a basic runtime (called SubstrateVM) is compiled into the binary, as well as the actual application. Sounds a little like Go, which also includes a small runtime for e.g. garbage collection.
 In this article, I&amp;rsquo;ll show how to build a small sample restful webservice with GraalVM native compilation. The sample application is written in Java.
 Why would somebody even be interested in native compilation of a JVM application? On my day job at E.ON i sadly still have to work a lot with Java applications. Our tech stack is completely cloud native - we run almost everything on Kubernetes. Our applications are &amp;ldquo;typical&amp;rdquo; 12 Factor applications. In such a dockerized environment, i think there are three major reasons why native compilation would be interesting.&lt;/p&gt;
-
 &lt;ul&gt;
-&lt;li&gt;Application startup time&lt;/li&gt;
-&lt;/ul&gt;
-
+&lt;li&gt;
+&lt;p&gt;Application startup time&lt;/p&gt;
 &lt;p&gt;This may not be entirely Java&amp;rsquo;s fault. We&amp;rsquo;re using Spring Boot, and startup is really slow. I usually have to tune my Kubernetes readiness probe to not check earlier than 20 seconds after starting the pod. And that&amp;rsquo;s for a very small application - 500 lines of code.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Memory Footprint&lt;/li&gt;
-&lt;/ul&gt;
-
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Memory Footprint&lt;/p&gt;
 &lt;p&gt;In my experience, you don&amp;rsquo;t want to give your Spring Boot applications less than 512MB of memory. Otherwise it can take multiple minutes to start. While Java and especially JVM overhead are to blame here, this is just as well a Framework problem. It&amp;rsquo;s no secret that Spring is very bloated and uses a lot of reflection.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Application size&lt;/li&gt;
-&lt;/ul&gt;
-
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Application size&lt;/p&gt;
 &lt;p&gt;The size of Java application containers is another problem. It is very annoying, but not critical. The smallest JRE i can find is ~65MB large (alpine based openJDK). If you use Spring Boot, you&amp;rsquo;ll have at least a ~40MB large fat jar for your application. If your application is larger, it will obviously be more. That&amp;rsquo;s a minimum of 100MB per container. Note that the JRE layer of the Docker image might be reused by multiple Docker image, so it is not really 100MB+ for each image of your app. While I think it&amp;rsquo;s certainly bearable to have 100MB+ large hello world applications in 2018, it&amp;rsquo;s just weak if i can have a 6MB Go binary.&lt;/p&gt;
-
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;GraalVM AOT compilation might improve this situation. I expect startup time to be pretty much instant without the need for a JVM, and application size to be significantly smaller. GraalVM has some serious limitations, because several features of the JVM do not play well with static compilation.
-A full list can be found &lt;a href=&#34;https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. The documentation is crystal clear here: Dynamic Class Loading is and will not be supported. Instead, the compiler analyzes the code and compiles all required classes into the binary. In combination with reflection, this becomes a nightmare for the current Java ecosystem. Many libraries and frameworks use reflection to dynamically instantiate classes. GraalVM does not handle this very well, in many cases additional compiler configuration has to be provided. One of the reasons is, that a call to e.g. Class.forName() may be based on runtime information. A very simple example:&lt;/p&gt;
-
+A full list can be found &lt;a href=&#34;https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md&#34;&gt;here&lt;/a&gt;. The documentation is crystal clear here: Dynamic Class Loading is and will not be supported. Instead, the compiler analyzes the code and compiles all required classes into the binary. In combination with reflection, this becomes a nightmare for the current Java ecosystem. Many libraries and frameworks use reflection to dynamically instantiate classes. GraalVM does not handle this very well, in many cases additional compiler configuration has to be provided. One of the reasons is, that a call to e.g. Class.forName() may be based on runtime information. A very simple example:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;if (someVariable) {
     Class.forName(&amp;quot;SomeClazz&amp;quot;)
     ...
 }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Since the value of someVariable is not known at compile time, the compiler can not know whether to include &amp;ldquo;SomeClazz&amp;rdquo;. Not to mention that it&amp;rsquo;s just a string, and the compiler has to search for this class on the classpath at compile time. If the compiler decides to include this class, it will just do that and throw an error if the class is not found. That&amp;rsquo;s nice. However, this is only best-effort. There is no guarantee that all required classes are included at compile time - which means that classes may be missing, and runtime errors are thrown when they are being instantiated. There&amp;rsquo;s many more limitations, for a full reference head over to GraalVM&amp;rsquo;s &lt;a href=&#34;https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md&#34; target=&#34;_blank&#34;&gt;documentation&lt;/a&gt;.
-As a proof of concept, i was looking for a rest library without excess usage of reflect. Obviously it&amp;rsquo;s not spring boot - i chose &lt;a href=&#34;https://javalin.io&#34; target=&#34;_blank&#34;&gt;javalin.io&lt;/a&gt;. It&amp;rsquo;s just a rest library on top of Jetty, that&amp;rsquo;s it.&lt;/p&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Since the value of someVariable is not known at compile time, the compiler can not know whether to include &amp;ldquo;SomeClazz&amp;rdquo;. Not to mention that it&amp;rsquo;s just a string, and the compiler has to search for this class on the classpath at compile time. If the compiler decides to include this class, it will just do that and throw an error if the class is not found. That&amp;rsquo;s nice. However, this is only best-effort. There is no guarantee that all required classes are included at compile time - which means that classes may be missing, and runtime errors are thrown when they are being instantiated. There&amp;rsquo;s many more limitations, for a full reference head over to GraalVM&amp;rsquo;s &lt;a href=&#34;https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md&#34;&gt;documentation&lt;/a&gt;.
+As a proof of concept, i was looking for a rest library without excess usage of reflect. Obviously it&amp;rsquo;s not spring boot - i chose &lt;a href=&#34;https://javalin.io&#34;&gt;javalin.io&lt;/a&gt;. It&amp;rsquo;s just a rest library on top of Jetty, that&amp;rsquo;s it.&lt;/p&gt;
 &lt;h1 id=&#34;getting-started&#34;&gt;Getting started&lt;/h1&gt;
-
 &lt;p&gt;While i recommend performing builds in Docker, it&amp;rsquo;s very helpful to install GraalVM locally.
-I use &lt;a href=&#34;https://sdkman.io&#34; target=&#34;_blank&#34;&gt;sdkman&lt;/a&gt;, it eases the management of JDKs. If you don&amp;rsquo;t have sdkman installed already:&lt;/p&gt;
-
+I use &lt;a href=&#34;https://sdkman.io&#34;&gt;sdkman&lt;/a&gt;, it eases the management of JDKs. If you don&amp;rsquo;t have sdkman installed already:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;curl -s &amp;quot;https://get.sdkman.io&amp;quot; | bash&lt;/code&gt;&lt;/p&gt;
-
 &lt;p&gt;Install GraalVM JDK:&lt;/p&gt;
-
 &lt;p&gt;&lt;code&gt;sdk install java 1.0.0-rc6-graal &amp;amp;&amp;amp; sdk use java 1.0.0-rc6-graal&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s start with a very simple Hello World:
-&lt;script src=&#34;https://gist.github.com/birdayz/2a6692f208bfc8be9360689d9d9d14d5.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;In addition, we must not forget to declare the necessary dependencies. We must include Jackson, as it will be loaded at runtime (d&amp;rsquo;uh). The same case for a SLF4J binding, Javalin recommends to use slf4j-simple.
-&lt;script src=&#34;https://gist.github.com/birdayz/665c6dddef5da64858912cd473798230.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;Also, we&amp;rsquo;ll need to build a fat jar that includes all classes and jars of our application.
-&lt;script src=&#34;https://gist.github.com/birdayz/6d6cadbb1f9e5e9262ce6fc6538e358b.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
-
+&lt;p&gt;Let&amp;rsquo;s start with a very simple Hello World:&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;In addition, we must not forget to declare the necessary dependencies. We must include Jackson, as it will be loaded at runtime (d&amp;rsquo;uh). The same case for a SLF4J binding, Javalin recommends to use slf4j-simple.&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;Also, we&amp;rsquo;ll need to build a fat jar that includes all classes and jars of our application.&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;Nothing very special so far. To build the native application executable, GraalVM provides the tool &lt;code&gt;native-image&lt;/code&gt;. Let&amp;rsquo;s try it out:&lt;/p&gt;
-
 &lt;pre&gt;&lt;code&gt;j0e@thinkpad  ~/projects/graal-javalin  master ● ? ⍟1  native-image -jar ./build/libs/graal-javalin-all-1.0-SNAPSHOT.jar 
 Build on Server(pid: 28578, port: 34643)*
 [graal-javalin-all-1.0-SNAPSHOT:28578]    classlist:   2,977.05 ms
@@ -95,10 +150,7 @@ Error: Unsupported method sun.nio.ch.InheritedChannel.soType0(int) is reachable:
 To diagnose the issue, you can add the option --report-unsupported-elements-at-runtime. The unsupported element is then reported at run time when it is accessed the first time.
 ...
 ...
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Okay, we need the flag -H:+JNI. That one is quite easy, just add the flag to the command and this problem is solved:&lt;/p&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Okay, we need the flag -H:+JNI. That one is quite easy, just add the flag to the command and this problem is solved:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt; j0e@thinkpad  ~/projects/graal-javalin  master ● ? ⍟1  native-image -jar ./build/libs/graal-javalin-all-1.0-SNAPSHOT.jar -H:+JNI 
 Build on Server(pid: 28578, port: 34643)
 [graal-javalin-all-1.0-SNAPSHOT:28578]    classlist:     753.67 ms
@@ -117,10 +169,7 @@ Build on Server(pid: 28578, port: 34643)
 [graal-javalin-all-1.0-SNAPSHOT:28578]        image:   1,426.49 ms
 [graal-javalin-all-1.0-SNAPSHOT:28578]        write:     280.71 ms
 [graal-javalin-all-1.0-SNAPSHOT:28578]      [total]:  40,064.13 ms
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So compilation was apparently successful. The ugliness starts when we run it:&lt;/p&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;So compilation was apparently successful. The ugliness starts when we run it:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt; j0e@thinkpad  ~/projects/graal-javalin  master ● ? ⍟1  ./graal-javalin-all-1.0-SNAPSHOT                          ✔  33695  00:53:54 
 [main] INFO io.javalin.Javalin - 
  _________________________________________
@@ -163,16 +212,11 @@ java.lang.IllegalArgumentException: Class org.eclipse.jetty.servlet.ServletMappi
         at io.javalin.Javalin.start(Javalin.java:103)
         at de.nerden.samples.graal.Main.main(Main.java:10)
         at com.oracle.svm.core.JavaMainWrapper.run(JavaMainWrapper.java:163)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Reflection didn&amp;rsquo;t work. This is not a big surprise, but shows the fundamental weakness of GraalVM: it can&amp;rsquo;t guarantee that your application works, even if it compiles.&lt;/p&gt;
-
-&lt;p&gt;To fix this issue, we have to tell GraalVM that the class ServletMapping has to be included in the binary. Since it&amp;rsquo;s reflection and no &amp;lsquo;normal&amp;rsquo; part of the code, it didn&amp;rsquo;t detect it. There&amp;rsquo;s two possibilities to do this: code-based and JSON configuration-based. I tested both, i think i prefer the json approach but in the end it does not really matter. Add a file with the following contents to your project:
-&lt;script src=&#34;https://gist.github.com/birdayz/6ced28708961972268593737c12c0c0b.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Reflection didn&amp;rsquo;t work. This is not a big surprise, but shows the fundamental weakness of GraalVM: it can&amp;rsquo;t guarantee that your application works, even if it compiles.&lt;/p&gt;
+&lt;p&gt;To fix this issue, we have to tell GraalVM that the class ServletMapping has to be included in the binary. Since it&amp;rsquo;s reflection and no &amp;lsquo;normal&amp;rsquo; part of the code, it didn&amp;rsquo;t detect it. There&amp;rsquo;s two possibilities to do this: code-based and JSON configuration-based. I tested both, i think i prefer the json approach but in the end it does not really matter. Add a file with the following contents to your project:&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;Note the special notation &lt;code&gt;[Lorg.eclipse.jetty.servlet.ServletMapping;&lt;/code&gt;. This is necessary because in this case, an array of ServletMapping objects is being reflectively instantiated. In addition, i&amp;rsquo;ve added slf4j and Jackson classes, so they are found at runtime. In both cases, runtime errors are thrown because reflection didn&amp;rsquo;t work.
 Also, we have to add our own classes to the reflection list. If we don&amp;rsquo;t do this, the following cryptic exception will be thrown when performing a request:&lt;/p&gt;
-
 &lt;pre&gt;&lt;code&gt;[qtp1024494636-165] WARN io.javalin.core.ExceptionMapper - Uncaught exception
 com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class de.nerden.samples.graal.Test and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS)
         at java.lang.Throwable.&amp;lt;init&amp;gt;(Throwable.java:265)
@@ -225,66 +269,51 @@ com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer fou
         at org.eclipse.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:683)
         at java.lang.Thread.run(Thread.java:748)
         at com.oracle.svm.core.posix.thread.PosixJavaThreads.pthreadStartRoutine(PosixJavaThreads.java:238)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The reason is: Jackson uses reflection to marshal/unmarshal json.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The reason is: Jackson uses reflection to marshal/unmarshal json.
 Once configured properly, it works.&lt;/p&gt;
-
 &lt;p&gt;You can try it out on your own!
 &lt;code&gt;docker run --net=host birdy/graal-javalin&lt;/code&gt;&lt;/p&gt;
-
 &lt;p&gt;Perform the sample call:
-&lt;code&gt;curl localhost:7000&lt;/code&gt;&lt;/p&gt;
-
+&lt;code&gt;curl localhost:7000 &lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt; j0e@thinkpad  ~/projects/graal-javalin  master ? ⍟2  curl localhost:7000                                         ✔  33707  01:15:12 
 {&amp;quot;someValue&amp;quot;:&amp;quot;Hello World!&amp;quot;}%
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Yay. And the startup time is instant. No JVM!&lt;/p&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Yay. And the startup time is instant. No JVM!&lt;/p&gt;
 &lt;p&gt;So, how did this turn out, looking at my 3 points of criticism?&lt;/p&gt;
-
 &lt;h2 id=&#34;application-startup-time&#34;&gt;Application startup time&lt;/h2&gt;
-
 &lt;p&gt;The application starts instantly. While Javalin is starting very quickly even on the JVM (~1-2 Seconds), this will be VERY appealing for CLI tools.&lt;/p&gt;
-
 &lt;h2 id=&#34;memory-footprint&#34;&gt;Memory Footprint&lt;/h2&gt;
-
-&lt;p&gt;Measuring memory usage of a process is not very straight-forward. There&amp;rsquo;s several metrics - according so some post on  &lt;a href=&#34;https://stackoverflow.com/questions/131303/how-to-measure-actual-memory-usage-of-an-application-or-process&#34; target=&#34;_blank&#34;&gt;Stackoverflow&lt;/a&gt; RSS is a good metric.
+&lt;p&gt;Measuring memory usage of a process is not very straight-forward. There&amp;rsquo;s several metrics - according so some post on  &lt;a href=&#34;https://stackoverflow.com/questions/131303/how-to-measure-actual-memory-usage-of-an-application-or-process&#34;&gt;Stackoverflow&lt;/a&gt; RSS is a good metric.
 So let&amp;rsquo;s use check this out:&lt;/p&gt;
-
 &lt;pre&gt;&lt;code&gt;cat /proc/7812/status
 VmRSS:     18260 kB
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;18 MB, that looks quite nice. Note that I didn&amp;rsquo;t perform any load tests, these are just some manual tests with no load. With some more requests with curl it went up to 25MB.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;18 MB, that looks quite nice. Note that I didn&amp;rsquo;t perform any load tests, these are just some manual tests with no load. With some more requests with curl it went up to 25MB.
 The good thing: we have the luxury that we can directly compare this to the same application, but on the JVM.&lt;/p&gt;
-
 &lt;pre&gt;&lt;code&gt;VmRSS:    183580 kB
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In this specific case, it&amp;rsquo;s about &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;10&lt;/sub&gt; of memory usage.&lt;/p&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this specific case, it&amp;rsquo;s about 1/10 of memory usage.&lt;/p&gt;
 &lt;h2 id=&#34;application-size&#34;&gt;Application size&lt;/h2&gt;
-
-&lt;p&gt;The application&amp;rsquo;s fat jar is 5.7MB large and the smallest JRE is 57MB: &lt;a href=&#34;https://hub.docker.com/r/library/openjdk/tags/&#34; target=&#34;_blank&#34;&gt;https://hub.docker.com/r/library/openjdk/tags/&lt;/a&gt;. For simplicity, let&amp;rsquo;s say 60MB total. The native binary is about 22MB large:&lt;/p&gt;
-
+&lt;p&gt;The application&amp;rsquo;s fat jar is 5.7MB large and the smallest JRE is 57MB: &lt;a href=&#34;https://hub.docker.com/r/library/openjdk/tags/&#34;&gt;https://hub.docker.com/r/library/openjdk/tags/&lt;/a&gt;. For simplicity, let&amp;rsquo;s say 60MB total. The native binary is about 22MB large:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;-rwxr-xr-x 1 j0e users  22M Sep 24 01:38 graal-javalin
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That&amp;rsquo;s ~ &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt; the size. That&amp;rsquo;s absolutely acceptable, and almost in range of the size of Go binaries.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;That&amp;rsquo;s ~ 1/3 the size. That&amp;rsquo;s absolutely acceptable, and almost in range of the size of Go binaries.
 Please note that with JDK9, sizes may be smaller. So i think the advantage here exists, but may not be very large.&lt;/p&gt;
-
 &lt;p&gt;In general, GraalVM is a cool thing. It just feels like a dirty hack. I really dislike that there may always be runtime errors that GraalVM can&amp;rsquo;t predict at compile time (correct me if i&amp;rsquo;m wrong). I&amp;rsquo;m not sure if this is the future of Java, but does it have one anyway? ;)
-It&amp;rsquo;s worth noting that some library/framework authors are actively investing time into supporting GraalVM. As a matter of fact, micronaut.io is now compatible: &lt;a href=&#34;https://github.com/graemerocher/micronaut-graal-experiments&#34; target=&#34;_blank&#34;&gt;https://github.com/graemerocher/micronaut-graal-experiments&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The full code, including a Dockerfile is available on GitHub: &lt;a href=&#34;https://github.com/birdayz/graal-javalin&#34; target=&#34;_blank&#34;&gt;https://github.com/birdayz/graal-javalin&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In addition, i made a Docker image you can use as base image to build a container with only the static executable, similar how it is done for Go applications.
-&lt;script src=&#34;https://gist.github.com/birdayz/37c775c11683a2eb0bb1ef3311f235df.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
-
+It&amp;rsquo;s worth noting that some library/framework authors are actively investing time into supporting GraalVM. As a matter of fact, micronaut.io is now compatible: &lt;a href=&#34;https://github.com/graemerocher/micronaut-graal-experiments&#34;&gt;https://github.com/graemerocher/micronaut-graal-experiments&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The full code, including a Dockerfile is available on GitHub: &lt;a href=&#34;https://github.com/birdayz/graal-javalin&#34;&gt;https://github.com/birdayz/graal-javalin&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In addition, i made a Docker image you can use as base image to build a container with only the static executable, similar how it is done for Go applications.&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;This Dockerfile uses Docker multi-stage builds. There&amp;rsquo;s two containers, one just used for the build, and the final output container which only contains the application.&lt;/p&gt;
 </content>
+      
+    </item>
+    
+    <item>
+      <title>Posts</title>
+      <link>https://nerden.de/posts/</link>
+      <pubDate>Sun, 23 Sep 2018 00:41:31 +0200</pubDate>
+      <author>Johannes Bruederl</author>
+      <guid>https://nerden.de/posts/</guid>
+      <description></description>
+      
+      <content></content>
       
     </item>
     
