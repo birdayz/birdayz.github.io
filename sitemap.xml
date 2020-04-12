@@ -53,11 +53,6 @@
   </url>
   
   <url>
-    <loc>https://nerden.de/posts/microservice_graalvm/</loc>
-    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://nerden.de/tags/graalvm/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
   </url>
@@ -69,11 +64,6 @@
   
   <url>
     <loc>https://nerden.de/tags/javalin/</loc>
-    <lastmod>2018-09-23T00:41:31+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nerden.de/posts/</loc>
     <lastmod>2018-09-23T00:41:31+02:00</lastmod>
   </url>
   
