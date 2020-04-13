@@ -114,18 +114,18 @@
 <p>To create an EventHub, you have to first create an EventHubs namespace.
 The equivalent to a <code>EventHub Namespace</code> in the Kafka world is a <code>Kafka Cluster</code>.</p>
 <p>This can be either done on the Portal, or via CLI:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">az eventhubs namespace create --name joe-test-2 --resource-group esp-iot
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">az eventhubs namespace create --name joe-test-2 --resource-group my-resource-group
 </code></pre></div><p>This command may take some minutes to complete.</p>
 <p>Since quite some time, the <code>Kafka compatibility mode</code> is enabled by default for all new EventHub Namespaces, so you don&rsquo;t need to explicitly enable it.</p>
 <p>After creating the EventHub Namespace, you have to create an <code>EventHub</code>. The equivalent to an <code>EventHub</code> is a <code>Kafka Topic</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">az eventhubs eventhub create -g esp-iot --namespace-name joe-test-2 --name iot-data
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">az eventhubs eventhub create -g my-resource-group --namespace-name joe-test-2 --name iot-data
 </code></pre></div><p>Now that we created the Namespace (Cluster) and the EventHub (Topic), we still need a way to access it. For this, a Connection String is used. It can be obtained via either Portal, or the Azure CLI:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">az eventhubs namespace authorization-rule keys list -g esp-iot --namespace-name joe-test-2 --name RootManageSharedAccessKey | jq -r <span style="color:#e6db74">&#39;.primaryConnectionString&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">az eventhubs namespace authorization-rule keys list -g my-resource-group --namespace-name joe-test-2 --name RootManageSharedAccessKey | jq -r <span style="color:#e6db74">&#39;.primaryConnectionString&#39;</span>
 </code></pre></div><p>This prints out the Connection String to your <code>EventHub</code> Namespace.
 If you don&rsquo;t have jq installed, you can omit the jq command and copy the primaryConnectionString by hand.</p>
 <h1 id="configure-kaf">Configure kaf</h1>
 <p>Configuring kaf to use the eventhub is very straight-forward; run the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kaf config add-eventhub my-eventhub --eh-connstring <span style="color:#66d9ef">$(</span>az eventhubs namespace authorization-rule keys list -g esp-iot --namespace-name joe-test-2 --name RootManageSharedAccessKey | jq -r <span style="color:#e6db74">&#39;.primaryConnectionString&#39;</span><span style="color:#66d9ef">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kaf config add-eventhub my-eventhub --eh-connstring <span style="color:#66d9ef">$(</span>az eventhubs namespace authorization-rule keys list -g my-resource-group --namespace-name joe-test-2 --name RootManageSharedAccessKey | jq -r <span style="color:#e6db74">&#39;.primaryConnectionString&#39;</span><span style="color:#66d9ef">)</span>
 Added EventHub.
 </code></pre></div><p>Note: Replace <code>joe-test-2</code> with your <code>EventHub Namespace</code> name.</p>
 <p>To ensure that kaf sets your new EventHub Namespace as the active cluster, run</p>
