@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Nerdy stuff</title>
+    <title>Random stuff</title>
     <link>https://nerden.de/</link>
-    <description>Recent content on Nerdy stuff</description>
+    <description>Recent content on Random stuff</description>
     <generator>Hugo - gohugo.io</generator>
     <language>en</language>
     <contact>johannes.bruederl@gmail.com</contact>
