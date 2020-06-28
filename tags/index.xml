@@ -6,10 +6,46 @@
     <description>Recent content in Tags on Random stuff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 12 Apr 2020 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jun 2020 21:23:00 +0200</lastBuildDate>
     
 	<atom:link href="https://nerden.de/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>arch</title>
+      <link>https://nerden.de/tags/arch/</link>
+      <pubDate>Sun, 28 Jun 2020 21:23:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/arch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>archlinux</title>
+      <link>https://nerden.de/tags/archlinux/</link>
+      <pubDate>Sun, 28 Jun 2020 21:23:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/archlinux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>aur</title>
+      <link>https://nerden.de/tags/aur/</link>
+      <pubDate>Sun, 28 Jun 2020 21:23:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/aur/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>checksum</title>
+      <link>https://nerden.de/tags/checksum/</link>
+      <pubDate>Sun, 28 Jun 2020 21:23:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/checksum/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>azure eventhub</title>

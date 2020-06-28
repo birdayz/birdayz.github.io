@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>checksum on Random stuff</title>
+    <link>https://nerden.de/tags/checksum/</link>
+    <description>Recent content in checksum on Random stuff</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 28 Jun 2020 21:23:00 +0200</lastBuildDate>
+    
+	<atom:link href="https://nerden.de/tags/checksum/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Updating an AUR package</title>
+      <link>https://nerden.de/updating_aur_package/</link>
+      <pubDate>Sun, 28 Jun 2020 21:23:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/updating_aur_package/</guid>
+      <description>Archlinux&amp;rsquo; documentation is good, but somehow i struggled to find simple instructions how to update a package. The kafka CLI i&amp;rsquo;m maintaining, kaf, has been available for some time in the AUR. At some point i have been passed the ownership of the AUR package, but i had no idea how to do a release.
+For more complex cases there&amp;rsquo;s probably more to do, however in my simple case:
+  Clone repo:</description>
+    </item>
+    
+  </channel>
+</rss>

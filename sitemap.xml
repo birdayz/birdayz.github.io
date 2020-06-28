@@ -3,6 +3,41 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://nerden.de/tags/arch/</loc>
+    <lastmod>2020-06-28T21:23:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/archlinux/</loc>
+    <lastmod>2020-06-28T21:23:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/aur/</loc>
+    <lastmod>2020-06-28T21:23:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/checksum/</loc>
+    <lastmod>2020-06-28T21:23:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/</loc>
+    <lastmod>2020-06-28T21:23:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/</loc>
+    <lastmod>2020-06-28T21:23:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/updating_aur_package/</loc>
+    <lastmod>2020-06-28T21:23:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://nerden.de/tags/azure-eventhub/</loc>
     <lastmod>2020-04-12T00:00:00+02:00</lastmod>
   </url>
@@ -24,16 +59,6 @@
   
   <url>
     <loc>https://nerden.de/tags/kafka/</loc>
-    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nerden.de/</loc>
-    <lastmod>2020-04-12T00:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nerden.de/tags/</loc>
     <lastmod>2020-04-12T00:00:00+02:00</lastmod>
   </url>
   

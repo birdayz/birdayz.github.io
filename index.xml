@@ -12,6 +12,51 @@
     
     
     <item>
+      <title>Updating an AUR package</title>
+      <link>https://nerden.de/updating_aur_package/</link>
+      <pubDate>Sun, 28 Jun 2020 21:23:00 +0200</pubDate>
+      <author>Johannes Bruederl</author>
+      <guid>https://nerden.de/updating_aur_package/</guid>
+      <description></description>
+      
+      <content>&lt;p&gt;Archlinux&amp;rsquo; documentation is good, but somehow i struggled to find simple instructions how to update a package. The kafka CLI i&amp;rsquo;m maintaining, &lt;a href=&#34;https://github.com/birdayz/kaf&#34;&gt;kaf&lt;/a&gt;, has been available for some time in the AUR. At some point i have been passed the ownership of the AUR package, but i had no idea how to do a release.&lt;/p&gt;
+&lt;p&gt;For more complex cases there&amp;rsquo;s probably more to do, however in my simple case:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Clone repo:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git clone ssh://aur@aur.archlinux.org/kaf.git
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This URL can be found in the AUR under &lt;code&gt;Git Clone URL&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Update PKGBUILD&lt;/p&gt;
+&lt;p&gt;Edit the file PKGBUILD and make necessary changes, i.e. bumping the version number.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Update checksums in the PKGBUILD file.&lt;/p&gt;
+&lt;p&gt;Use the tool &lt;code&gt;updpkgsums&lt;/code&gt; for this. It can be installed by running &lt;code&gt;sudo pacman -Sy pacman-contrib&lt;/code&gt;. It does the build, and writes the checksum into PKGBUILD.
+It is also possible to do it manually, by using e.g. md5sum/sha256sum on the relevant files, and updating the checksums in PKGBUILD by hand.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Update &lt;code&gt;.SRCINFO&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;It is generated from PKGBUILD, and required for the AUR. Run &lt;code&gt;makepkg --printsrcinfo &amp;gt; .SRCINFO&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify before pushing.&lt;/p&gt;
+&lt;p&gt;Run &lt;code&gt;makepkg -C -f --noconfirm&lt;/code&gt;. If it is successful, your package is OK.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Push the changes:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git add PKGBUILD .SRCINFO
+git commit -m &amp;quot;update to vX.Y.Z&amp;quot;
+git push
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now, the updated package is available in the AUR.&lt;/p&gt;
+</content>
+      
+    </item>
+    
+    <item>
       <title>Using kaf for Azure EventHub</title>
       <link>https://nerden.de/kaf_azure_eventhub/</link>
       <pubDate>Sun, 12 Apr 2020 00:00:00 +0200</pubDate>
