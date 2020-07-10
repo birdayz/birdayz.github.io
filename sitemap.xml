@@ -3,6 +3,46 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://nerden.de/tags/cloud-dns/</loc>
+    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/dns/</loc>
+    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/gcp/</loc>
+    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/google-cloud/</loc>
+    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/google_cloud_dns_sub_zone/</loc>
+    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/</loc>
+    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/</loc>
+    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/terraform/</loc>
+    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://nerden.de/tags/arch/</loc>
     <lastmod>2020-06-28T21:23:00+02:00</lastmod>
   </url>
@@ -19,16 +59,6 @@
   
   <url>
     <loc>https://nerden.de/tags/checksum/</loc>
-    <lastmod>2020-06-28T21:23:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nerden.de/</loc>
-    <lastmod>2020-06-28T21:23:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nerden.de/tags/</loc>
     <lastmod>2020-06-28T21:23:00+02:00</lastmod>
   </url>
   

@@ -12,6 +12,27 @@
     
     
     <item>
+      <title>Managing multiple DNS zones with Terraform and Google Cloud DNS</title>
+      <link>https://nerden.de/google_cloud_dns_sub_zone/</link>
+      <pubDate>Fri, 10 Jul 2020 00:00:00 +0200</pubDate>
+      <author>Johannes Bruederl</author>
+      <guid>https://nerden.de/google_cloud_dns_sub_zone/</guid>
+      <description></description>
+      
+      <content>&lt;p&gt;Google Cloud DNS is a convenient way to manage DNS Zones. With Terraform, it&amp;rsquo;s possible to manage these Zones as code, usually by committing the terraform files to version control.
+However, setting up sub-zones has always been a bit tricky. I&amp;rsquo;ll use this blog post to document how to manage zones and sub-zones with CloudDNS and terraform.&lt;/p&gt;
+&lt;p&gt;To manage a zone, the resource &lt;code&gt;google_dns_managed_zone&lt;/code&gt; can be used:&lt;/p&gt;
+&lt;script src=&#34;https://gist.github.com/birdayz/85d5bd21746b1448d9776c5d9c8f48e3.js&#34;&gt;&lt;/script&gt;
+&lt;p&gt;To add a sub-zone:&lt;/p&gt;
+&lt;script src=&#34;https://gist.github.com/birdayz/2ce13ac71e0d20609b0f405f94346d1f.js&#34;&gt;&lt;/script&gt;
+&lt;p&gt;Now we have two zones, but the sub-zone is not reachable. Due to how the DNS works, we have to add NS records to the &amp;ldquo;top&amp;rdquo; zone, that point to the sub-zone:&lt;/p&gt;
+&lt;script src=&#34;https://gist.github.com/birdayz/723d4b9c42336e8d3fde9a536e984507.js&#34;&gt;&lt;/script&gt;
+&lt;p&gt;This record resides in the &amp;ldquo;top-level&amp;rdquo; zone my-domain.com, and points to the sub-zone &lt;code&gt;domain.my-domain.com&lt;/code&gt;. By using the attribute &lt;code&gt;name_servers&lt;/code&gt; of the &lt;code&gt;google_dns_managed_zone&lt;/code&gt; resource, we can connect these two zones within terraform. GCP defines the DNS servers for each zone, by using the &lt;code&gt;name_servers&lt;/code&gt; attribute we can dynamically refer to the used dns servers.&lt;/p&gt;
+</content>
+      
+    </item>
+    
+    <item>
       <title>Updating an AUR package</title>
       <link>https://nerden.de/updating_aur_package/</link>
       <pubDate>Sun, 28 Jun 2020 21:23:00 +0200</pubDate>
@@ -172,11 +193,11 @@ I use &lt;a href=&#34;https://sdkman.io&#34;&gt;sdkman&lt;/a&gt;, it eases the m
 &lt;p&gt;Install GraalVM JDK:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;sdk install java 1.0.0-rc6-graal &amp;amp;&amp;amp; sdk use java 1.0.0-rc6-graal&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s start with a very simple Hello World:&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;script src=&#34;https://gist.github.com/birdayz/2a6692f208bfc8be9360689d9d9d14d5.js&#34;&gt;&lt;/script&gt;
 &lt;p&gt;In addition, we must not forget to declare the necessary dependencies. We must include Jackson, as it will be loaded at runtime (d&amp;rsquo;uh). The same case for a SLF4J binding, Javalin recommends to use slf4j-simple.&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;script src=&#34;https://gist.github.com/birdayz/665c6dddef5da64858912cd473798230.js&#34;&gt;&lt;/script&gt;
 &lt;p&gt;Also, we&amp;rsquo;ll need to build a fat jar that includes all classes and jars of our application.&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;script src=&#34;https://gist.github.com/birdayz/6d6cadbb1f9e5e9262ce6fc6538e358b.js&#34;&gt;&lt;/script&gt;
 &lt;p&gt;Nothing very special so far. To build the native application executable, GraalVM provides the tool &lt;code&gt;native-image&lt;/code&gt;. Let&amp;rsquo;s try it out:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;j0e@thinkpad  ~/projects/graal-javalin  master ● ? ⍟1  native-image -jar ./build/libs/graal-javalin-all-1.0-SNAPSHOT.jar 
 Build on Server(pid: 28578, port: 34643)*
@@ -259,7 +280,7 @@ java.lang.IllegalArgumentException: Class org.eclipse.jetty.servlet.ServletMappi
         at com.oracle.svm.core.JavaMainWrapper.run(JavaMainWrapper.java:163)
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Reflection didn&amp;rsquo;t work. This is not a big surprise, but shows the fundamental weakness of GraalVM: it can&amp;rsquo;t guarantee that your application works, even if it compiles.&lt;/p&gt;
 &lt;p&gt;To fix this issue, we have to tell GraalVM that the class ServletMapping has to be included in the binary. Since it&amp;rsquo;s reflection and no &amp;lsquo;normal&amp;rsquo; part of the code, it didn&amp;rsquo;t detect it. There&amp;rsquo;s two possibilities to do this: code-based and JSON configuration-based. I tested both, i think i prefer the json approach but in the end it does not really matter. Add a file with the following contents to your project:&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;script src=&#34;https://gist.github.com/birdayz/6ced28708961972268593737c12c0c0b.js&#34;&gt;&lt;/script&gt;
 &lt;p&gt;Note the special notation &lt;code&gt;[Lorg.eclipse.jetty.servlet.ServletMapping;&lt;/code&gt;. This is necessary because in this case, an array of ServletMapping objects is being reflectively instantiated. In addition, i&amp;rsquo;ve added slf4j and Jackson classes, so they are found at runtime. In both cases, runtime errors are thrown because reflection didn&amp;rsquo;t work.
 Also, we have to add our own classes to the reflection list. If we don&amp;rsquo;t do this, the following cryptic exception will be thrown when performing a request:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;[qtp1024494636-165] WARN io.javalin.core.ExceptionMapper - Uncaught exception
@@ -344,7 +365,7 @@ Please note that with JDK9, sizes may be smaller. So i think the advantage here 
 It&amp;rsquo;s worth noting that some library/framework authors are actively investing time into supporting GraalVM. As a matter of fact, micronaut.io is now compatible: &lt;a href=&#34;https://github.com/graemerocher/micronaut-graal-experiments&#34;&gt;https://github.com/graemerocher/micronaut-graal-experiments&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The full code, including a Dockerfile is available on GitHub: &lt;a href=&#34;https://github.com/birdayz/graal-javalin&#34;&gt;https://github.com/birdayz/graal-javalin&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In addition, i made a Docker image you can use as base image to build a container with only the static executable, similar how it is done for Go applications.&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;script src=&#34;https://gist.github.com/birdayz/37c775c11683a2eb0bb1ef3311f235df.js&#34;&gt;&lt;/script&gt;
 &lt;p&gt;This Dockerfile uses Docker multi-stage builds. There&amp;rsquo;s two containers, one just used for the build, and the final output container which only contains the application.&lt;/p&gt;
 </content>
       
