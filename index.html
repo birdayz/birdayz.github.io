@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.73.0" />
+	<meta name="generator" content="Hugo 0.74.3" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
@@ -64,7 +64,14 @@
   </svg>
 </i>
             </span>
-          </a></nav>
+          </a><a class="level-item" aria-label="CV" href='https://docs.google.com/document/d/1WiBnj7C-rgTfPN60yUWxQVwueiJniPGrRJ3J0JWzRv4/edit?usp=sharing' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class>
+		<img src="/cv.png"/>
+              </i>
+            </span>
+
+        </nav>
       </div>
     </nav>
 
@@ -213,6 +220,26 @@ Install kaf There&rsquo;s several ways to install kaf.
         Oracle&rsquo;s GraalVM allows for ahead-of-time (AOT) compilation of JVM applications. This means, instead of running a JVM process to execute your application, the compiler builds a native binary. How does it work? On a very high level, a basic runtime (called SubstrateVM) is compiled into the binary, as well as the actual application. Sounds a little like Go, which also includes a small runtime for e.g. garbage collection. In this article, I&rsquo;ll show how to build a small sample restful webservice with GraalVM native compilation.
         
         <a class="button is-link" href="https://nerden.de/microservice_graalvm/" style="height:28px">
+          Read more
+          <span class="icon is-small">
+            <i class="fa fa-angle-double-right"></i>
+          </span>
+        </a>
+        
+      </div>
+    </article>
+    
+    <article>
+      <div class="subtitle tags is-6 is-pulled-right">
+        
+      </div>
+      <h2 class="subtitle is-6">January 1, 0001</h2>
+      <h1 class="title"><a href="https://nerden.de/matrix_riot_caddy/"></a></h1>
+      <div class="content">
+        sudo apt install -y lsb-release wget apt-transport-https sudo wget -O /usr/share/keyrings/matrix-org-archive-keyring.gpg https://packages.matrix.org/debian/matrix-org-archive-keyring.gpg echo &quot;deb [signed-by=/usr/share/keyrings/matrix-org-archive-keyring.gpg] https://packages.matrix.org/debian/ $(lsb_release -cs) main&quot; | sudo tee /etc/apt/sources.list.d/matrix-org.list sudo apt update sudo apt install matrix-synapse-py3 echo &quot;deb [trusted=yes] https://apt.fury.io/caddy/ /&quot; \ | sudo tee -a /etc/apt/sources.list.d/caddy-fury.list sudo apt update sudo apt install caddy Change server_name
+localhost reverse_proxy 127.0.0.1:9000 3cEoEeyZA4eEChX5edSPIrjjOV4kJFr9 sudo wget -O /usr/share/keyrings/riot-release-key.gpg https://packages.riot.im/riot-release-key.gpg echo &quot;deb [trusted=yes] https://riot.im/packages/debian/ /&quot; \ | sudo tee -a /etc/apt/sources.list.d/riot-im.list sudo apt update sudo apt install riot-web sudo apt install -y wget apt-transport-https sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.
+        
+        <a class="button is-link" href="https://nerden.de/matrix_riot_caddy/" style="height:28px">
           Read more
           <span class="icon is-small">
             <i class="fa fa-angle-double-right"></i>

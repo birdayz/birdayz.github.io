@@ -372,5 +372,49 @@ It&amp;rsquo;s worth noting that some library/framework authors are actively inv
       
     </item>
     
+    <item>
+      <title></title>
+      <link>https://nerden.de/matrix_riot_caddy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>Johannes Bruederl</author>
+      <guid>https://nerden.de/matrix_riot_caddy/</guid>
+      <description></description>
+      
+      <content>&lt;pre&gt;&lt;code&gt;sudo apt install -y lsb-release wget apt-transport-https
+sudo wget -O /usr/share/keyrings/matrix-org-archive-keyring.gpg https://packages.matrix.org/debian/matrix-org-archive-keyring.gpg
+echo &amp;quot;deb [signed-by=/usr/share/keyrings/matrix-org-archive-keyring.gpg] https://packages.matrix.org/debian/ $(lsb_release -cs) main&amp;quot; |
+    sudo tee /etc/apt/sources.list.d/matrix-org.list
+sudo apt update
+sudo apt install matrix-synapse-py3
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;echo &amp;quot;deb [trusted=yes] https://apt.fury.io/caddy/ /&amp;quot; \
+    | sudo tee -a /etc/apt/sources.list.d/caddy-fury.list
+sudo apt update
+sudo apt install caddy
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Change server_name&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;localhost
+
+reverse_proxy 127.0.0.1:9000
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;3cEoEeyZA4eEChX5edSPIrjjOV4kJFr9
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;sudo wget -O /usr/share/keyrings/riot-release-key.gpg https://packages.riot.im/riot-release-key.gpg
+echo &amp;quot;deb [trusted=yes] https://riot.im/packages/debian/ /&amp;quot; \
+    | sudo tee -a /etc/apt/sources.list.d/riot-im.list
+sudo apt update
+sudo apt install riot-web
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;sudo apt install -y wget apt-transport-https
+sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
+echo &amp;quot;deb [signed-by=/usr/share/keyrings/riot-im-archive-keyring.gpg] https://packages.riot.im/debian/ default main&amp;quot; |
+    sudo tee /etc/apt/sources.list.d/riot-im.list
+sudo apt update
+sudo apt install riot-web
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;docker run -it --rm \
+    -v /root/synapse_files:/data \
+    -e SYNAPSE_SERVER_NAME=my.matrix.host \
+    -e SYNAPSE_REPORT_STATS=yes \
+    matrixdotorg/synapse:latest generate
+	```
+&lt;/code&gt;&lt;/pre&gt;</content>
+      
+    </item>
+    
   </channel>
 </rss>
