@@ -6,10 +6,64 @@
     <description>Recent content in Tags on Random stuff</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 10 Jul 2020 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="https://nerden.de/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>accesstoken</title>
+      <link>https://nerden.de/tags/accesstoken/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/accesstoken/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>azure</title>
+      <link>https://nerden.de/tags/azure/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/azure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>azuread</title>
+      <link>https://nerden.de/tags/azuread/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/azuread/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lifetime</title>
+      <link>https://nerden.de/tags/lifetime/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/lifetime/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spa</title>
+      <link>https://nerden.de/tags/spa/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/spa/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>token</title>
+      <link>https://nerden.de/tags/token/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/tags/token/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>cloud dns</title>

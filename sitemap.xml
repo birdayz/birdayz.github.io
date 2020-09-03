@@ -3,6 +3,51 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://nerden.de/tags/accesstoken/</loc>
+    <lastmod>2020-09-03T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/azure/</loc>
+    <lastmod>2020-09-03T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/azuread/</loc>
+    <lastmod>2020-09-03T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/azure_ad_access_token_lifetime/</loc>
+    <lastmod>2020-09-03T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/lifetime/</loc>
+    <lastmod>2020-09-03T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/</loc>
+    <lastmod>2020-09-03T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/spa/</loc>
+    <lastmod>2020-09-03T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/</loc>
+    <lastmod>2020-09-03T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://nerden.de/tags/token/</loc>
+    <lastmod>2020-09-03T00:00:00+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://nerden.de/tags/cloud-dns/</loc>
     <lastmod>2020-07-10T00:00:00+02:00</lastmod>
   </url>
@@ -24,16 +69,6 @@
   
   <url>
     <loc>https://nerden.de/google_cloud_dns_sub_zone/</loc>
-    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nerden.de/</loc>
-    <lastmod>2020-07-10T00:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://nerden.de/tags/</loc>
     <lastmod>2020-07-10T00:00:00+02:00</lastmod>
   </url>
   

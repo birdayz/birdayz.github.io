@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lifetime on Random stuff</title>
+    <link>https://nerden.de/tags/lifetime/</link>
+    <description>Recent content in lifetime on Random stuff</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="https://nerden.de/tags/lifetime/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Increasing Azure AD Access Token Lifetimes</title>
+      <link>https://nerden.de/azure_ad_access_token_lifetime/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0200</pubDate>
+      
+      <guid>https://nerden.de/azure_ad_access_token_lifetime/</guid>
+      <description>By default, Azure AD Access Tokens have a lifetime of 1hour. Especially for single page apps, it&amp;rsquo;s very inconvenient. Users have to re-login every hour. Ideally, it&amp;rsquo;s just one redirect to the login of Azure AD, and there they still are within their session, and AD redirects them back to your app. However this can still be very painful, e.g. if the user does something within your app, and gets pretty much logged out because all API calls fail due to an expired token.</description>
+    </item>
+    
+  </channel>
+</rss>

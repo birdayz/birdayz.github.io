@@ -12,6 +12,27 @@
     
     
     <item>
+      <title>Increasing Azure AD Access Token Lifetimes</title>
+      <link>https://nerden.de/azure_ad_access_token_lifetime/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0200</pubDate>
+      <author>Johannes Bruederl</author>
+      <guid>https://nerden.de/azure_ad_access_token_lifetime/</guid>
+      <description></description>
+      
+      <content>&lt;p&gt;By default, Azure AD Access Tokens have a lifetime of 1hour. Especially for single page apps, it&amp;rsquo;s very inconvenient. Users have to re-login every hour. Ideally, it&amp;rsquo;s just one redirect to the login of Azure AD, and there they still are within their session, and AD redirects them back to your app. However this can still be very painful, e.g. if the user does something within your app, and gets pretty much logged out because all API calls fail due to an expired token. My experience is, that 1 hour is too short. It has security benefits of course, but the complexity in the app increases significantly if you start dealing with expired tokens, saving state to local storage, and transmitting data after a successful re-login for example.&lt;/p&gt;
+&lt;p&gt;It is indeed possible to change the token lifetime, for just a specific application. It&amp;rsquo;s just not very well documented, and only possible via Powershell. Also, it can be only done by an Azure AD Admin. In combination with Powershell only (i don&amp;rsquo;t have Powershell/Windows) and the lack of documentation, it took me forever to figure this out. Luckily, you&amp;rsquo;ll now get the solution.&lt;/p&gt;
+&lt;p&gt;Create policy&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;$policy = New-AzureADPolicy -Definition @(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;{&amp;#34;TokenLifetimePolicy&amp;#34;:{&amp;#34;Version&amp;#34;:1,&amp;#34;AccessTokenLifetime&amp;#34;:&amp;#34;10:00:00&amp;#34;}}&amp;#39;&lt;/span&gt;) -DisplayName &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;my_policy_name&amp;#34;&lt;/span&gt; -IsOrganizationDefault $false -Type &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;TokenLifetimePolicy&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Get reference to your AD App Registration&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;$app = Get-AzureADApplication -Filter &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DisplayName eq &amp;#39;my-app-reg-name&amp;#39;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Double check the ID of the app reg to be sure it&amp;rsquo;s the correct app.&lt;/p&gt;
+&lt;p&gt;Assign policy to your AD App Registration&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;Add-AzureADApplicationPolicy -Id $app.ObjectId -RefObjectId $policy.Id
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+      
+    </item>
+    
+    <item>
       <title>Managing multiple DNS zones with Terraform and Google Cloud DNS</title>
       <link>https://nerden.de/google_cloud_dns_sub_zone/</link>
       <pubDate>Fri, 10 Jul 2020 00:00:00 +0200</pubDate>
