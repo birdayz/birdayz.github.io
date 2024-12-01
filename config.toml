@@ -1,0 +1,77 @@
+baseurl = "https://example.com"
+languageCode = "en"
+title = "Johannes' blog"
+theme = "kiss"
+copyright = ""
+disqusShortname = ""
+googleAnalytics = ""
+pagination.pagerSize = 5 # Number of posts per page
+enableRobotsTXT = true
+
+ignoreLogs = ['warning-goldmark-raw-html']
+
+[params.rss] # Adding this tag enables RSS feed
+includeContent = true # Includes whole content in rss
+authorName = "Johannes Bruederl" # Author full name
+authorEmail = "johannes.bruederl@gmail.com" # Author email
+
+[params.assets]
+customCSS = ["css/custom.css"]
+googleFonts = []
+
+[params.info]
+adsense = "" # Adsense ID (ID only, without ca-pub-)
+enableSocial = true # Adds OpenGraph and Twitter cards
+homeTitle = "Johannes blog" # Title for home page
+poweredby = false # Adds powered by hugo and kiss below Copyright
+related = true # Includes related articles at the bottom of the article
+codeCopy = true # Add copy button above code blocks
+taxonomiesCount = true # Add taxonomies count
+
+[params.features]
+disqusOnDemand = false  # Load Disqus comments on click
+mathjax = false
+katex = false
+
+
+[params.opengraph.facebook]
+admins = [] # array of Facebook IDs
+appID = ""
+pageID = ""
+
+[params.opengraph.twitter]
+page = "" # Twitter Page username. If not set, params.social.twitter will be used.
+
+[params.social]
+github = "birdayz"
+email = "johannes.bruederl@gmail.com"
+linkedin = "johannes-brüderl-325663b3"
+xing = "Johannes_Bruederl"
+facebook = "ribice"
+instagram = ""
+codepen = ""
+rss = "index.xml" # Add this to show RSS button in social.
+cv = "https://docs.google.com/document/d/1WiBnj7C-rgTfPN60yUWxQVwueiJniPGrRJ3J0JWzRv4/edit?usp=sharing"
+
+[params.social.config]
+platforms = ["github","email","linkedin","xing"]
+
+[params.matomoAnalytics]
+siteID = 1
+rootURL = "//matomo.example.com/"
+
+[params.fathomAnalytics]
+rootURL = "//fathom.example.com/"
+
+[params.hotjarAnalytics]
+hjid = 1
+
+[params.plausibleAnalytics]
+domain = "ribice.ba"
+
+[taxonomies]
+tag ="tags"
+
+[blackfriday]
+hrefTargetBlank = true
+
