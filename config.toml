@@ -4,7 +4,7 @@ title = "Johannes' blog"
 theme = "kiss"
 copyright = ""
 disqusShortname = ""
-googleAnalytics = "UA-126316461-1"
+googleAnalytics = "G-5EWP8ED8PZ"
 pagination.pagerSize = 5 # Number of posts per page
 enableRobotsTXT = true
 
