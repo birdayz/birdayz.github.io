@@ -1,7 +1,7 @@
 ---
 title: "Replace Buf Remote Plugins with local vendored plugins"
 date: 2024-12-08T22:34:00+01:00
-draft: true
+draft: false
 tags: [proto,protobuf,go,bun,buf]
 ---
 
