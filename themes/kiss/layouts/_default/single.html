@@ -8,7 +8,7 @@
       {{ end }}
     </div>
     {{if not .Date.IsZero }}
-    <h2 class="subtitle is-6">
+    <h2 class="subtitle is-6 date">
       {{- $.Site.Params.Info.dateFormat | default "January 2, 2006" | .Date.Format -}}
     </h2>
     {{ end }}
