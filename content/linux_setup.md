@@ -70,4 +70,4 @@ If there's a good open-source solution, use it. Even if it has a few sharp edges
 
 ## Next
 
-In this blog series, i will share my own learnings, my current setup, and future ideas. I understand, all of this is very opinionated - but that's okay!
+In this blog series, i will share my own learnings, my current setup, and future ideas. I understand, all of this is very opinionated - but that's okay! Everyone can run whatever setup they like. Occasional jokes about OSX becoming the new Windows are allowed though :P.
