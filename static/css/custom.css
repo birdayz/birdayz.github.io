@@ -7,3 +7,7 @@
   font-weight: normal;
   color: #222324;
 }
+
+.nav-item img {
+  max-height: none !important;
+}
