@@ -47,7 +47,7 @@ With AI, writing your own tools is easier than ever. I don't mean just letting i
 
 ### 6. Good Hardware is Important
 
-If you're a software engineer like me, you should invest in good hardware. This is part of the "no abstractions" rule-a slow, clunky machine is an abstraction that gets in your way. While not everything at work is a choice, in general, don't cheap out.
+If you're a software engineer like me, you should invest in good hardware. This is part of the "no abstractions" rule-a slow, clunky machine is an abstraction that gets in your way. While not everything at work is a choice, in general, don't cheap out. It doesn't matter if your employer pays for it or not. This is **your responsibility**.
 
 Don't be the person with a bad microphone on a remote call or a terrible monitor with a crappy resolution. It's just not worth it. You work 40-60 hours a week with this stuff. There's no justification for bad hardware. Plus, for me, good quality gear makes me happy. Things that just work and feel solid improve my day-to-day life.
 
@@ -56,10 +56,11 @@ A few examples that come to mind:
 * **Dedicated webcam** for clear video.
 * **Proper studio-quality microphone** for good audio. It is **your job** to make things as seamless as possible in video calls.
 * A **keyboard** that's fun to use and ergonomic.
-* An **ergonomic mouse** that works well for both productivity and gaming.
+* An **ergonomic mouse** that works well for both productivity and gaming (or rather two mice).
 * **Good monitors.** I think you can never have too much screen space, especially with tiling window managers. Don't skimp on resolution.
 * A **good DAC** (Digital-to-Analog Converter). I'm an amateur audiophile, and a good DAC makes a huge difference.
 * A powerful **desktop computer**. I'm a big fan of building my own desktops. A proper desktop has way more horsepower than a laptop. For example, sustained clock speeds on a desktop CPU can be twice as fast as a laptop's, not even counting the difference in core counts.
+* Don't run a setup that ruins your health.
 
 I will cover my specific choices in a future part of this blog series.
 
