@@ -1,5 +1,5 @@
 ---
-title: "The Linux setup | Part 1 - The Mantra"
+title: "The Linux setup | Part 1 - An Investment for Life"
 date: 2025-09-06T00:00:00Z
 draft: false
 tags: [linux,arch,archlinux,the linux setup]
