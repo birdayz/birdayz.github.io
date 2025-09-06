@@ -67,6 +67,8 @@ A few examples that come to mind:
 * A **good DAC** (Digital-to-Analog Converter). I'm an amateur audiophile, and a good DAC makes a huge difference.
 * A powerful **desktop computer**. I'm a big fan of building my own desktops. A proper desktop has way more horsepower than a laptop. For example, sustained clock speeds on a desktop CPU can be twice as fast as a laptop's, not even counting the difference in core counts.
 
+I will cover my specific choices in a future part of this blog series.
+
 ### **7. Prefer Open-Source Software**
 
 If there's a good open-source solution, use it. Even if it has a few sharp edges, being able to fix it yourself is much better than being locked into a proprietary system. However, being pragmatic still applies. If there's no good open-source option, just use the proprietary thing.
