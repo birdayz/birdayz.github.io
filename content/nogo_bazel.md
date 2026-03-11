@@ -1,25 +1,29 @@
 ---
-title: "Adding staticcheck to nogo in Bazel"
-date: 2026-03-11T16:00:00+01:00
-draft: true
+title: "Go linting with nogo in Bazel"
+date: 2026-03-11T22:31:00+01:00
+draft: false
 tags: [go,bazel,nogo,staticcheck,linting]
 ---
 
-i recently added all of staticcheck's SA analyzers to my nogo setup in Bazel. A few things aren't well documented.
+i use nogo instead of golangci-lint for Go linting in Bazel. nogo is a [rules_go](https://github.com/bazelbuild/rules_go) feature that compiles Go analyzers into the build. Lint errors become build errors. Bazel caches results per package, so incremental builds only re-lint what changed. golangci-lint has its own cache, but it doesn't share between CI and local, so you duplicate work.
 
-nogo is a [rules_go](https://github.com/bazelbuild/rules_go) feature that compiles Go analyzers into the build. Lint errors become build errors. Bazel caches results per package, so incremental builds only re-lint what changed. golangci-lint has its own cache, but it doesn't share between CI and local, so you duplicate work.
+## Setup
 
-You enable it in `MODULE.bazel` by pointing `go_sdk.nogo` at a `nogo()` target:
+You enable nogo in `MODULE.bazel` by pointing `go_sdk.nogo` at a `nogo()` target:
 
 ```starlark
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
-go_sdk.download(version = "1.24.5")
+go_sdk.from_file(go_mod = "//:go.mod")
 go_sdk.nogo(nogo = "//:nogo")
 ```
 
-The `nogo()` rule itself goes in your root `BUILD.bazel` (shown below). The [official docs](https://github.com/bazelbuild/rules_go/blob/master/go/nogo.rst) cover the basics. Below is what i had to figure out myself.
+`go_sdk.from_file` reads the Go version from your `go.mod`, so you don't duplicate it. You can also use `go_sdk.download(version = "1.24.5")` if you want to pin it explicitly.
 
-## The `_base` config key
+The `nogo()` rule itself goes in your root `BUILD.bazel`. This applies to all Go targets in the workspace. There's no per-package opt-in, so if you need to roll it out incrementally, `exclude_files` in the config is your only lever. The [official docs](https://github.com/bazelbuild/rules_go/blob/master/go/nogo.rst) cover the basics. Below is what i had to figure out myself.
+
+## Config
+
+### The `_base` key
 
 Most nogo guides show a config where you repeat `only_files` or `exclude_files` for every single analyzer:
 
@@ -56,9 +60,9 @@ The values in `only_files` and `exclude_files` are **regular expressions**, not 
 
 This is [documented](https://github.com/bazelbuild/rules_go/blob/master/go/nogo.rst), but most examples i found online still show the per-analyzer duplication.
 
-### Path matching
+### Path matching pitfall
 
-This one is tricky because it fails silently. The file paths nogo matches against are sandbox-relative paths as seen by the Go compiler, so for your own code that's something like `pkg/mypackage/foo.go`. Third-party deps live under `external/`.
+The file paths nogo matches against are sandbox-relative paths as seen by the Go compiler, so for your own code that's something like `pkg/mypackage/foo.go`. Third-party deps live under `external/`.
 
 So `exclude_files` with `"external/"` works fine to skip dependencies. But if you try `only_files` with your Go import path like `"github\\.com/myorg/myrepo/"`, it silently matches nothing. All findings get suppressed. No error, no warning. You think everything is clean, but the config is just filtering out all the results.
 
@@ -75,11 +79,11 @@ func broken() bool {
 
 If the build doesn't fail, your config is wrong.
 
-Also, if you have generated code (proto stubs etc.) under your own source tree, you'll want to add those to `exclude_files` too.
+If you have generated code (proto stubs etc.) under your source tree, add those paths to `exclude_files` too.
 
-## Adding staticcheck
+## Analyzers
 
-There's a community project ([nogo-analyzer](https://github.com/sluongng/nogo-analyzer)) that wraps staticcheck for nogo, but you don't actually need it. Each staticcheck SA package already exports `var Analyzer *analysis.Analyzer`, and nogo's [codegen template](https://github.com/bazel-contrib/rules_go/blob/master/go/tools/builders/generate_nogo_main.go) expects exactly that. It does `{{$import.Name}}.Analyzer` for each dep. So you can reference the SA packages directly:
+nogo works with any Go analyzer that exports `var Analyzer *analysis.Analyzer`. The stdlib `x/tools` analyzers (`nilness`, `errorsas`, `shadow`, etc.) work out of the box. You can list them with `go list golang.org/x/tools/go/analysis/passes/...`. You add them as deps in your `nogo()` rule:
 
 ```starlark
 nogo(
@@ -91,17 +95,32 @@ nogo(
         "@org_golang_x_tools//go/analysis/passes/nilness:go_default_library",
         "@org_golang_x_tools//go/analysis/passes/errorsas:go_default_library",
         # ...
-
-        # staticcheck SA analyzers (bare label works)
-        "@co_honnef_go_tools//staticcheck/sa1000",
-        "@co_honnef_go_tools//staticcheck/sa1001",
-        # ... all 95 ...
-        "@co_honnef_go_tools//staticcheck/sa9009",
     ],
 )
 ```
 
-The `:go_default_library` vs bare label difference is just how gazelle generates BUILD files for each module. Ordering doesn't matter, nogo resolves transitive analyzer dependencies automatically. Gazelle also won't touch your `nogo()` rule, it only manages `go_library`/`go_test`/`go_binary` targets.
+Ordering doesn't matter, nogo resolves transitive analyzer dependencies automatically. Gazelle won't touch your `nogo()` rule, it only manages `go_library`/`go_test`/`go_binary` targets.
+
+## Adding staticcheck
+
+There's a community project ([nogo-analyzer](https://github.com/sluongng/nogo-analyzer)) that wraps staticcheck for nogo, but you don't actually need it. Each staticcheck SA package already exports `var Analyzer *analysis.Analyzer`, and nogo's [codegen template](https://github.com/bazel-contrib/rules_go/blob/master/go/tools/builders/generate_nogo_main.go) expects exactly that. It does `{{$import.Name}}.Analyzer` for each dep. So you can reference the SA packages directly, alongside the stdlib analyzers:
+
+```starlark
+deps = [
+    # stdlib analyzers
+    "@org_golang_x_tools//go/analysis/passes/nilness:go_default_library",
+    "@org_golang_x_tools//go/analysis/passes/errorsas:go_default_library",
+    # ...
+
+    # staticcheck SA analyzers (bare label works)
+    "@co_honnef_go_tools//staticcheck/sa1000",
+    "@co_honnef_go_tools//staticcheck/sa1001",
+    # ... all 95 ...
+    "@co_honnef_go_tools//staticcheck/sa9009",
+],
+```
+
+The `:go_default_library` vs bare label difference is just how gazelle generates BUILD files for each module. The `co_honnef_go_tools` repo name is what gazelle generates from the Go module path `honnef.co/go/tools`, replacing dots and slashes with underscores.
 
 ### Getting the deps into Bazel
 
