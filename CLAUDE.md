@@ -107,3 +107,29 @@ Optionally, before the tone iterations, run 5 parallel reviewer agents (differen
 ## Content
 
 Posts go in `content/`. Hugo frontmatter with title, date, draft, tags. Set `draft: true` until explicitly told to publish.
+
+### Frontmatter
+
+The YAML block at the top of each `.md` file:
+
+```yaml
+---
+title: "Post title"
+date: 2026-03-11T22:31:00+01:00
+draft: false
+tags: [go,bazel]
+image: "/img/my-post-og.png"   # optional: OpenGraph preview image for social sharing
+---
+```
+
+### OpenGraph images
+
+When sharing posts on Reddit, Twitter, LinkedIn etc., the `og:image` meta tag controls the preview image. The theme reads it from the `image` frontmatter field. If not set, falls back to Gravatar (small, looks bad on Reddit).
+
+For each new post, generate a 1200x630 PNG preview image:
+- Clean, minimal design matching the blog's style
+- Post title as text on the image
+- Save to `static/img/<post-slug>-og.png`
+- Add `image: "/img/<post-slug>-og.png"` to frontmatter
+
+The image should be simple — solid or subtle gradient background, post title in a clean font. No stock photos, no clip art, no busy designs.
