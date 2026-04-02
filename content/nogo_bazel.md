@@ -225,3 +225,88 @@ nogo makes lint errors into build errors. On my codebase, adding 95 staticcheck 
 The downside is that every intermediate state of your code must be lint-clean. You can't iterate on something that has warnings. i prefer this, it prevents lint debt from piling up.
 
 If you want linter caching without the "lint = build failure" model, [Aspect's rules_lint](https://github.com/aspect-build/rules_lint) runs them as separate actions.
+
+## Writing your own analyzer
+
+The stdlib and staticcheck analyzers cover general Go issues, not project-specific rules. nogo works with any Go package that exports `var Analyzer *analysis.Analyzer`. i use one to ban `interface{}` in favor of `any`.
+
+Go 1.18 added `any` as a built-in alias for `interface{}`. gofmt doesn't rewrite it, and no existing analyzer flags it. LLMs love generating `interface{}` too. Their training data is full of pre-1.18 Go. A nogo analyzer catches it at build time.
+
+```go
+// pkg/linters/noemptyiface/analyzer.go
+package noemptyiface
+
+import (
+	"go/ast"
+
+	"golang.org/x/tools/go/analysis"
+)
+
+var Analyzer = &analysis.Analyzer{
+	Name: "noemptyiface",
+	Doc:  "reports uses of interface{} that should be any",
+	Run:  run,
+}
+
+func run(pass *analysis.Pass) (any, error) {
+	for _, file := range pass.Files {
+		ast.Inspect(file, func(n ast.Node) bool {
+			iface, ok := n.(*ast.InterfaceType)
+			if !ok {
+				return true
+			}
+			if iface.Methods != nil && iface.Methods.NumFields() > 0 {
+				return true
+			}
+			pass.Report(analysis.Diagnostic{
+				Pos:     iface.Pos(),
+				End:     iface.End(),
+				Message: "use any instead of interface{}",
+				SuggestedFixes: []analysis.SuggestedFix{{
+					Message: "replace with any",
+					TextEdits: []analysis.TextEdit{{
+						Pos:     iface.Pos(),
+						End:     iface.End(),
+						NewText: []byte("any"),
+					}},
+				}},
+			})
+			return true
+		})
+	}
+	return nil, nil
+}
+```
+
+Gazelle generates the BUILD file. Then add it to your `nogo()` deps:
+
+```starlark
+nogo(
+    name = "nogo",
+    config = "nogo_config.json",
+    deps = [
+        # ... stdlib + staticcheck ...
+        "//pkg/linters/noemptyiface",
+    ],
+)
+```
+
+If you have generated code that uses `interface{}` (protobuf stubs, etc.), exclude it in the config:
+
+```json
+{
+  "noemptyiface": {
+    "exclude_files": {
+      "\\.pb\\.go$": "generated protobuf code"
+    }
+  }
+}
+```
+
+Now `interface{}` anywhere in your source code is a build error:
+
+```
+pkg/foo/bar.go:42:7: use any instead of interface{} (noemptyiface)
+```
+
+The `SuggestedFixes` field is there for gopls and similar tools. nogo itself just reports the error.
