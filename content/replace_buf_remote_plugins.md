@@ -2,7 +2,7 @@
 title: "Replace Buf Remote Plugins with local vendored plugins"
 date: 2024-12-08T22:34:00+01:00
 draft: false
-tags: [proto,protobuf,go,bun,buf]
+tags: [proto,protobuf,go,bun,buf,bazel]
 ---
 
 Buf is the best tool to manage protobufs. One of the biggest pain points of protobuf is the management of protoc plugins. You need to manage them, and make them available to other engineers working on the same repository/project. Versions need to be centrally managed, code generation must produce the same result, no matter if it happens on an engineer A or B's machine, or in CI.
@@ -94,5 +94,40 @@ I've tried out another package manager that is on the rise, `bun`. While i am no
 ```
 
 This works really well, and gives us the same experience as go plugins.
+
+## Bazel projects (Update April 2026)
+
+Since writing this post, i've been working on a project that uses Bazel as the build system. The `go run` approach from above doesn't work in CI when `go` isn't in PATH (e.g. Bazel-only runners). `bazelisk run` works as a buf local plugin. Bazel already manages all Go dependencies including protoc plugins via `go_deps` in `MODULE.bazel`:
+
+```yaml
+plugins:
+  - local:
+      - bazelisk
+      - run
+      - "@org_golang_google_protobuf//cmd/protoc-gen-go"
+      - --
+    out: gen
+    opt: paths=source_relative
+  - local:
+      - bazelisk
+      - run
+      - "@com_github_planetscale_vtprotobuf//cmd/protoc-gen-go-vtproto"
+      - --
+    out: gen
+    opt:
+      - paths=source_relative
+      - features=marshal+unmarshal+size+pool
+```
+
+The `--` after the Bazel target separates bazelisk's arguments from the plugin's stdin-based protoc protocol. Bazel builds the plugin binary once from your `go.mod` dependency and caches it. Subsequent runs are instant. No `go` binary in PATH required, no network calls after the first build.
+
+i clean before generating to avoid stale files:
+
+```makefile
+generate:
+    rm -rf gen/
+    buf generate
+    bazelisk run //:gazelle
+```
 
 You can find the complete example on [GitHub](https://github.com/birdayz/buf-local-plugin-vendoring).
