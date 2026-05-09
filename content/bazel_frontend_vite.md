@@ -160,6 +160,7 @@ Streamdown and its plugins use Tailwind classes internally. For Tailwind's CSS p
 ```css
 @source "../node_modules/streamdown/dist/*.js";
 @source "../node_modules/@streamdown/code/dist/*.js";
+@source "../node_modules/@streamdown/cjk/dist/*.js";
 ```
 
 Without these, Streamdown's styling breaks in production builds.
