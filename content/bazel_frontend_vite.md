@@ -7,15 +7,19 @@ tags: [bazel,vite,react,javascript,rules_js,frontend,tsgo,shadcn]
 
 i build my frontends as SPAs with Vite inside a Bazel workspace alongside Go backends. `bazel build //...` builds everything. The output is one JS bundle, one CSS file, and an index.html. The Go server serves it as static files, with `index.html` returned for any path that doesn't match a file on disk (so client-side routing works on refresh).
 
-i don't use Next.js or any SSR framework. SSR adds a Node.js runtime to your production stack for marginal performance gains on initial page load. For apps behind auth, dashboards, internal tools, or anything with a Go/Java/Rust backend already serving the API, SSR is overhead you don't need. Your backend serves the SPA as static files. That's it.
+i don't use Next.js or any SSR framework.
 
 ## Why Vite, not Next.js
 
-Next.js is a full application framework that wants to own your entire stack. File-based routing, server components, API routes, middleware, image optimization, ISR. If you're building a marketing site or a SaaS product where SEO and initial page load matter, fine.
+The frontend runs in the browser. The browser runs JavaScript. So you write JavaScript for the browser and ship it as static files. The backend is Go, serving APIs over ConnectRPC or plain HTTP. Clean separation. The Go server serves the SPA as static files. Done.
 
-For everything else, it's the wrong tool. If your frontend is behind auth, nobody cares about SSR. If you already have a Go or Java backend serving the API, you don't need a Node.js server running alongside it just to render React on the server. And in Bazel, Next.js is a pain. It writes to `.next/`, expects to own its output directory, and its build internals change with every major version.
+Next.js blurs this line on purpose. Server components, server actions, API routes, middleware. It wants to run your React code on a Node.js server, so now you have two server runtimes in production: your actual backend and a Node.js process rendering HTML. The pitch is "better initial page load" and "SEO". For apps behind auth, neither matters. For dashboards, internal tools, AI chat UIs, none of it matters. You're adding a Node.js server to your production stack for nothing.
 
-Vite is a bundler with no opinions about your app. You pick your router, your data fetching, your state management. It doesn't impose a file-based routing convention or a server runtime. It's just the build step.
+The whole SSR push is a business model. Vercel sells server compute. Server components need servers. The framework steers you toward their hosting. If you self-host or run on your own infra, SSR is pure overhead.
+
+i write Go for the backend because it compiles to a single static binary, has no runtime dependencies, and handles concurrency well. i'm not going to add a Node.js process next to it so React can render on the server. The browser is perfectly capable of rendering a UI from a JS bundle.
+
+Vite respects this. It's a bundler with no opinions about your app. You pick your router, your data fetching, your state management. It doesn't impose file-based routing or a server runtime. It's just the build step.
 
 For Bazel, this matters. `vite build` reads source files, writes output to `dist/`, and doesn't touch anything else. No `.next/` cache directory, no temp files next to your sources, no build internals that change between major versions. It fits cleanly into Bazel's sandbox: declared inputs in, declared outputs out.
 
