@@ -9,7 +9,17 @@ i build my frontends as SPAs with Vite inside a Bazel workspace alongside Go bac
 
 i don't use Next.js or any SSR framework. SSR adds a Node.js runtime to your production stack for marginal performance gains on initial page load. For apps behind auth, dashboards, internal tools, or anything with a Go/Java/Rust backend already serving the API, SSR is overhead you don't need. Your backend serves the SPA as static files. That's it.
 
-Vite is the right tool here. `vite build` takes inputs, writes to `dist/`, and plays nice with Bazel's sandbox model.
+## Why Vite, not Next.js
+
+Next.js is a full application framework that wants to own your entire stack. File-based routing, server components, API routes, middleware, image optimization, ISR. If you're building a marketing site or a SaaS product where SEO and initial page load matter, fine.
+
+For everything else, it's the wrong tool. If your frontend is behind auth, nobody cares about SSR. If you already have a Go or Java backend serving the API, you don't need a Node.js server running alongside it just to render React on the server. And in Bazel, Next.js is a pain. It writes to `.next/`, expects to own its output directory, and its build internals change with every major version.
+
+Vite is a bundler with no opinions about your app. You pick your router, your data fetching, your state management. It doesn't impose a file-based routing convention or a server runtime. It's just the build step.
+
+For Bazel, this matters. `vite build` reads source files, writes output to `dist/`, and doesn't touch anything else. No `.next/` cache directory, no temp files next to your sources, no build internals that change between major versions. It fits cleanly into Bazel's sandbox: declared inputs in, declared outputs out.
+
+The dev server is fast. Vite serves native ESM and does HMR in under 50ms. Transpilation uses esbuild (a Go binary), so there's no slow TypeScript compiler in the hot path.
 
 ## The Bazel setup
 
