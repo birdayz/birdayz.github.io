@@ -2,7 +2,7 @@
 title: "Frontend builds in Bazel with Vite and rules_js"
 date: 2026-03-28T22:00:00+01:00
 draft: true
-tags: [bazel,vite,react,javascript,rules_js,frontend,tsgo]
+tags: [bazel,vite,react,javascript,rules_js,frontend,tsgo,shadcn]
 ---
 
 i moved my frontend from Next.js to Vite and brought it into the same Bazel workspace as my Go backend. `bazel build //...` now builds everything. The frontend is a React SPA, so the output is one JS file, one CSS file, and an index.html that can be served from anywhere.
@@ -89,7 +89,7 @@ tsgo is still a dev preview (all versions are `7.0.0-dev.*`). Type-checking is n
 
 ## Bundling with Vite
 
-Vite uses esbuild internally for TS-to-JS transpilation. esbuild strips the type annotations and transpiles, but doesn't type-check. That's the division of labor: tsgo catches type errors, esbuild transpiles, Vite bundles. Both tsgo and esbuild are written in Go.
+Vite uses esbuild internally for TS-to-JS transpilation. esbuild strips the type annotations and transpiles, but doesn't type-check. tsgo catches type errors, esbuild transpiles, Vite bundles. Both tsgo and esbuild are written in Go.
 
 The Vite CLI is tricky to reference as a Bazel tool because of path conflicts between the npm-linked directory and the binary entry point. A wrapper that imports `vite` as a module avoids this:
 
@@ -129,16 +129,61 @@ js_run_binary(
 )
 ```
 
-`js_run_binary` runs the Vite build inside Bazel's sandbox. Inputs are declared, outputs go to `dist/`. Bazel hashes the inputs and caches the result. If you change a React component, only the Vite build re-runs. If nothing changed, it's a cache hit.
+`js_run_binary` runs the Vite build inside Bazel's sandbox. Inputs are declared, outputs go to `dist/`.
+
+## shadcn/ui with Bazel
+
+shadcn works fine with this setup. Components are installed via the CLI (`pnpm dlx shadcn@latest add button card dialog`) and land in `src/components/ui/` as source files. They're just React components, so Bazel treats them like any other `.tsx` file in the `_SRCS` glob.
+
+Presets work too. i use `--preset b38UEt78C` which sets up Lyra style, stone base color, and JetBrains Mono font. The preset writes CSS variables to `globals.css` and a `components.json` config. Both are regular source files that Bazel picks up.
+
+One thing to watch: shadcn's `components.json` references paths like `@/components/ui` which resolve through the `@` → `src/` alias in `tsconfig.json` and `vite.config.ts`. This has nothing to do with Bazel. The alias is resolved at transpile time by Vite (dev) and esbuild (production build). Bazel just passes the raw source files to Vite.
+
+The shadcn CLI also installs npm dependencies when you add components (e.g. `radix-ui`, `class-variance-authority`). After adding new components, run `pnpm install` to update the lockfile, then the next `bazel build` picks up the new deps via `npm_translate_lock`.
+
+## AI Elements and Streamdown
+
+[AI Elements](https://elements.ai-sdk.dev/) is a component registry for AI chat UIs, built on shadcn. Components like Conversation, Message, PromptInput, Tool, Reasoning, and ModelSelector install the same way as shadcn components:
+
+```
+pnpm dlx shadcn@latest add @ai-elements/conversation @ai-elements/message @ai-elements/prompt-input
+```
+
+They land in `src/components/ai-elements/` as source files. Bazel doesn't care, they're part of the `_SRCS` glob.
+
+One annoyance: AI Elements components ship with `lucide-react` icon imports regardless of what `iconLibrary` is set in `components.json`. If you use phosphor (or tabler, or any other icon library), you need to manually replace the imports after every `shadcn add`. i do this immediately after installing each component.
+
+[Streamdown](https://github.com/vercel/streamdown) renders streaming markdown from LLMs. It replaces `react-markdown` with incremental rendering that doesn't re-parse the entire document on every token. It has plugins for syntax highlighting (`@streamdown/code` via Shiki) and CJK text handling.
+
+Streamdown and its plugins use Tailwind classes internally. For Tailwind's CSS purge to find them, add `@source` directives to your `globals.css`:
+
+```css
+@source "../node_modules/streamdown/dist/*.js";
+@source "../node_modules/@streamdown/code/dist/*.js";
+```
+
+Without these, Streamdown's styling breaks in production builds.
 
 ## The dev server stays outside Bazel
 
-For local development, i run `vite dev` directly via pnpm. Bazel's sandbox adds latency to the feedback loop. Vite gives sub-50ms HMR with native ESM.
-
-Even large monorepos that use Bazel for CI don't route dev servers through it.
+For local development, i run `vite dev` directly via pnpm. Bazel's sandbox makes it slow. Vite gives sub-50ms HMR with native ESM.
 
 ```
 just frontend    # runs: cd app && pnpm dev
+```
+
+The Vite dev server proxies API requests to the Go backend:
+
+```typescript
+server: {
+  port: 3000,
+  proxy: {
+    "/api": {
+      target: "http://localhost:8080",
+      changeOrigin: true,
+    },
+  },
+},
 ```
 
 ## What the build graph looks like
@@ -164,11 +209,11 @@ dist/
     index-xxx.css   40 KB  (gzip: 8 KB)
 ```
 
-One JS bundle, one CSS file. 594 KB for a 3-page dashboard with React, ConnectRPC, and protobuf runtime.
+One JS bundle, one CSS file. The Go server serves this with SPA fallback: hashed assets get `Cache-Control: immutable`, `index.html` gets `no-cache`.
 
 ## Switching from Next.js
 
-The migration was mechanical. Every React component transferred as-is. shadcn/ui, Tailwind v4, ConnectRPC, `@react-oauth/google` are all framework-agnostic. The actual changes:
+Every React component transferred as-is. shadcn/ui, Tailwind v4, ConnectRPC, `@react-oauth/google` are all framework-agnostic. The actual changes:
 
 - `next/image` → `<img>`. The images are YouTube thumbnails served by Google's CDN. Local optimization is pointless.
 - `next/link` + `next/navigation` → `react-router-dom`. Three routes.
