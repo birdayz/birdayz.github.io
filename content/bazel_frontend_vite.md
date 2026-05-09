@@ -1,7 +1,7 @@
 ---
 title: "Frontend builds in Bazel with Vite and rules_js"
 date: 2026-03-28T22:00:00+01:00
-draft: true
+draft: false
 tags: [bazel,vite,react,javascript,rules_js,frontend,tsgo,shadcn]
 ---
 
