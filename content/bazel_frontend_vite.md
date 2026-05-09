@@ -5,7 +5,7 @@ draft: true
 tags: [bazel,vite,react,javascript,rules_js,frontend,tsgo,shadcn]
 ---
 
-i build my frontends as SPAs with Vite inside a Bazel workspace alongside Go backends. `bazel build //...` builds everything. The output is one JS bundle, one CSS file, and an index.html. The Go server serves it with SPA fallback.
+i build my frontends as SPAs with Vite inside a Bazel workspace alongside Go backends. `bazel build //...` builds everything. The output is one JS bundle, one CSS file, and an index.html. The Go server serves it as static files, with `index.html` returned for any path that doesn't match a file on disk (so client-side routing works on refresh).
 
 i don't use Next.js or any SSR framework. SSR adds a Node.js runtime to your production stack for marginal performance gains on initial page load. For apps behind auth, dashboards, internal tools, or anything with a Go/Java/Rust backend already serving the API, SSR is overhead you don't need. Your backend serves the SPA as static files. That's it.
 
