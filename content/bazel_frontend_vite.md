@@ -133,13 +133,51 @@ js_run_binary(
 
 ## shadcn/ui with Bazel
 
-shadcn works fine with this setup. Components are installed via the CLI (`pnpm dlx shadcn@latest add button card dialog`) and land in `src/components/ui/` as source files. They're just React components, so Bazel treats them like any other `.tsx` file in the `_SRCS` glob.
+### Initial setup
 
-Presets work too. i use `--preset b38UEt78C` which sets up Lyra style, stone base color, and JetBrains Mono font. The preset writes CSS variables to `globals.css` and a `components.json` config. Both are regular source files that Bazel picks up.
+You need a `globals.css` with `@import "tailwindcss"` before running `shadcn init`. Without it, the CLI can't detect Tailwind and fails.
 
-One thing to watch: shadcn's `components.json` references paths like `@/components/ui` which resolve through the `@` → `src/` alias in `tsconfig.json` and `vite.config.ts`. This has nothing to do with Bazel. The alias is resolved at transpile time by Vite (dev) and esbuild (production build). Bazel just passes the raw source files to Vite.
+```
+pnpm dlx shadcn@latest init --preset b38UEt78C --yes
+```
 
-The shadcn CLI also installs npm dependencies when you add components (e.g. `radix-ui`, `class-variance-authority`). After adding new components, run `pnpm install` to update the lockfile, then the next `bazel build` picks up the new deps via `npm_translate_lock`.
+The `--preset` flag applies a complete design system: style, base color, font, icon library, border radius. Preset codes come from [ui.shadcn.com](https://ui.shadcn.com) and are opaque. Never try to decode them manually. Use `pnpm dlx shadcn@latest preset decode <code>` to inspect what a preset configures.
+
+The init command creates `components.json` (project config), installs base dependencies (`radix-ui`, `tailwind-merge`, `class-variance-authority`, etc.), and writes the full theme to `globals.css`. For Vite projects, pass `--template vite` if init doesn't auto-detect the framework.
+
+After init, add components as needed:
+
+```
+pnpm dlx shadcn@latest add button card dialog
+```
+
+Components land in `src/components/ui/` as source files. Bazel treats them like any other `.tsx` file in the `_SRCS` glob.
+
+### Presets
+
+i use preset `b38UEt78C` which gives Lyra style, stone base color, cyan theme, JetBrains Mono font, phosphor icons, and sharp corners (`--radius: 0`). The preset writes CSS variables to `globals.css` and sets the full config in `components.json`. Both are regular source files that Bazel picks up.
+
+To switch presets on an existing project, use `pnpm dlx shadcn@latest apply <code>`. To inspect the current preset, use `pnpm dlx shadcn@latest preset resolve`.
+
+### Alias resolution
+
+shadcn's `components.json` references paths like `@/components/ui` which resolve through the `@` → `src/` alias in `tsconfig.json` and `vite.config.ts`. This has nothing to do with Bazel. The alias is resolved at transpile time by Vite (dev) and esbuild (production build). Bazel just passes the raw source files to Vite.
+
+### Dependencies
+
+The shadcn CLI installs npm dependencies when you add components (e.g. `radix-ui`, `class-variance-authority`). After adding new components, run `pnpm install` to update the lockfile, then the next `bazel build` picks up the new deps via `npm_translate_lock`.
+
+### The shadcn skill
+
+shadcn has a [skill](https://ui.shadcn.com/docs/skills) for AI coding agents. Install it with:
+
+```
+npx skills add shadcn/ui
+```
+
+It drops rule files into `.agents/skills/shadcn/` that Claude Code (and other agents) load automatically. The rules enforce shadcn conventions: semantic color tokens instead of raw Tailwind colors, `gap-*` instead of `space-y-*`, `size-*` when width equals height, no manual `dark:` overrides, proper component composition patterns (items inside groups, `FieldGroup` for forms, `asChild` for triggers).
+
+Without the skill, AI agents generate code that looks like shadcn but violates half the conventions. With it, the generated code follows the actual patterns from the shadcn docs. i consider it mandatory for any project using shadcn with AI-assisted development.
 
 ## AI Elements and Streamdown
 
