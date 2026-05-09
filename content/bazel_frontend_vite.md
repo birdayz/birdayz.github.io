@@ -5,15 +5,11 @@ draft: true
 tags: [bazel,vite,react,javascript,rules_js,frontend,tsgo,shadcn]
 ---
 
-i moved my frontend from Next.js to Vite and brought it into the same Bazel workspace as my Go backend. `bazel build //...` now builds everything. The frontend is a React SPA, so the output is one JS file, one CSS file, and an index.html that can be served from anywhere.
+i build my frontends as SPAs with Vite inside a Bazel workspace alongside Go backends. `bazel build //...` builds everything. The output is one JS bundle, one CSS file, and an index.html. The Go server serves it with SPA fallback.
 
-## Why not Next.js
+i don't use Next.js or any SSR framework. SSR adds a Node.js runtime to your production stack for marginal performance gains on initial page load. For apps behind auth, dashboards, internal tools, or anything with a Go/Java/Rust backend already serving the API, SSR is overhead you don't need. Your backend serves the SPA as static files. That's it.
 
-i was running Next.js 16 for a dashboard behind auth. Every page fetched data client-side via ConnectRPC. No server components, no API routes, no ISR, no middleware. The entire SSR machinery was unused.
-
-Next.js also fights Bazel. It expects to own its output directory (`.next/`), writes temp files alongside sources, and its build internals change with every major release. There are contrib macros in rules_js for Next.js, but they work by generating a wrapper config that patches around these assumptions. Every Next.js upgrade risks breaking them.
-
-Vite has none of these problems. `vite build` takes inputs, writes to `dist/`, done.
+Vite is the right tool here. `vite build` takes inputs, writes to `dist/`, and plays nice with Bazel's sandbox model.
 
 ## The Bazel setup
 
@@ -250,12 +246,3 @@ dist/
 
 One JS bundle, one CSS file. The Go server serves this with SPA fallback: hashed assets get `Cache-Control: immutable`, `index.html` gets `no-cache`.
 
-## Switching from Next.js
-
-Every React component transferred as-is. shadcn/ui, Tailwind v4, ConnectRPC, `@react-oauth/google` are all framework-agnostic. The actual changes:
-
-- `next/image` → `<img>`. The images are YouTube thumbnails served by Google's CDN. Local optimization is pointless.
-- `next/link` + `next/navigation` → `react-router-dom`. Three routes.
-- `next-themes` → a React context that toggles a class on `<html>`. About 20 lines.
-- `process.env.NEXT_PUBLIC_*` → `import.meta.env.VITE_*`.
-- `"use client"` directives removed everywhere. Vite doesn't have server components.
