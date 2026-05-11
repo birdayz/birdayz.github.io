@@ -48,6 +48,15 @@ That's it. Just `rules_js`. No `rules_ts`, no `rules_swc`.
 
 The `.npmrc` needs `hoist=false`. rules_js requires this because it mirrors pnpm's flat layout inside Bazel's output tree. Without it, packages resolve phantom dependencies that aren't declared in the lockfile, and builds break non-deterministically.
 
+pnpm 10 blocks lifecycle scripts by default. Some npm packages (notably esbuild) need postinstall scripts to download platform-specific binaries. Add a `pnpm-workspace.yaml` next to `package.json` to allow them:
+
+```yaml
+onlyBuiltDependencies:
+  - esbuild
+```
+
+Without this, `npm_translate_lock` fails with a `pnpm 'onlyBuiltDependencies' configuration required` error.
+
 ## Type-checking with tsgo
 
 [tsgo](https://github.com/microsoft/typescript-go) is the TypeScript compiler rewritten in Go by the TypeScript team. It's a statically linked native binary, about 5x faster than tsc on my codebase (0.5s vs 2.5s).
@@ -112,14 +121,29 @@ if (process.argv[2] === "build") {
 }
 ```
 
+The `BUILD.bazel` for the app package starts with the load statements, `npm_link_all_packages` to make npm deps available as Bazel targets, and a `_SRCS` glob for source files:
+
+```starlark
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_run_binary")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+
+npm_link_all_packages(name = "node_modules")
+
+_SRCS = glob([
+    "src/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.css",
+])
+```
+
+`npm_link_all_packages` creates the `:node_modules` and `:node_modules/<pkg>` targets that the rest of the BUILD file references. Without it, none of the npm dependency targets exist.
+
 ```starlark
 js_binary(
     name = "vite_bin",
     data = [
         ":node_modules/vite",
         ":node_modules/@vitejs/plugin-react",
-        ":node_modules/@tailwindcss/vite",
-        ":node_modules/tailwindcss",
     ],
     entry_point = "vite_wrapper.mjs",
 )
@@ -132,7 +156,10 @@ js_run_binary(
         "vite-env.d.ts",
         "tsconfig.json",
         ":node_modules",
-    ] + glob(["public/**"]),
+    ] + glob(
+        ["public/**"],
+        allow_empty = True,
+    ),
     args = ["build"],
     chdir = package_name(),
     out_dirs = ["dist"],
@@ -140,7 +167,9 @@ js_run_binary(
 )
 ```
 
-`js_run_binary` runs the Vite build inside Bazel's sandbox. Inputs are declared, outputs go to `dist/`.
+If you use Tailwind CSS, add `:node_modules/@tailwindcss/vite` and `:node_modules/tailwindcss` to the `vite_bin` data list.
+
+`js_run_binary` runs the Vite build inside Bazel's sandbox. Inputs are declared, outputs go to `dist/`. The `allow_empty = True` on the `public/**` glob prevents Bazel from erroring when the directory is empty or doesn't exist.
 
 ## shadcn/ui with Bazel
 
@@ -260,4 +289,8 @@ dist/
 ```
 
 One JS bundle, one CSS file. The Go server serves this with SPA fallback: hashed assets get `Cache-Control: immutable`, `index.html` gets `no-cache`.
+
+## Demo
+
+A working example is at [birdayz/bazel-vite-demo](https://github.com/birdayz/bazel-vite-demo). It's a mock AI chat UI built with AI Elements, bundled by Vite inside Bazel, deployed to GitHub Pages via a GitHub Actions workflow that runs `bazel build`. The [live demo](https://birdayz.github.io/bazel-vite-demo/) uses the Lyra preset with Streamdown for markdown rendering.
 
