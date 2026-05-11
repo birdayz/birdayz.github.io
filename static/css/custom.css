@@ -29,3 +29,37 @@ h5:hover .heading-anchor,
 h6:hover .heading-anchor {
   opacity: 1;
 }
+
+.highlight {
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  margin: 1.5em 0;
+  overflow: hidden;
+}
+
+.highlight > div {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.highlight pre {
+  margin: 0;
+  border-radius: 0;
+  padding: 16px;
+}
+
+.highlight table {
+  width: 100%;
+}
+
+.highlight td:first-child {
+  width: 1px;
+}
+
+.highlight td:first-child pre {
+  padding: 16px 0 16px 16px;
+}
+
+.highlight td:last-child pre {
+  padding: 16px 20px;
+}
