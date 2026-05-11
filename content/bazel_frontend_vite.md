@@ -3,6 +3,7 @@ title: "Frontend builds in Bazel with Vite and rules_js"
 date: 2026-05-09T20:00:00+02:00
 draft: false
 tags: [bazel,vite,react,javascript,rules_js,frontend,tsgo,shadcn]
+image: "/img/bazel-frontend-vite-og.png"
 ---
 
 i build my frontends as SPAs with Vite inside a Bazel workspace alongside Go backends. `bazel build //...` builds everything. The output is one JS bundle, one CSS file, and an index.html. The Go server serves it as static files, with `index.html` returned for any path that doesn't match a file on disk (so client-side routing works on refresh).

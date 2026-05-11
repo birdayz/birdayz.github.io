@@ -126,10 +126,36 @@ image: "/img/my-post-og.png"   # optional: OpenGraph preview image for social sh
 
 When sharing posts on Reddit, Twitter, LinkedIn etc., the `og:image` meta tag controls the preview image. The theme reads it from the `image` frontmatter field. If not set, falls back to Gravatar (small, looks bad on Reddit).
 
-For each new post, generate a 1200x630 PNG preview image:
-- Clean, minimal design matching the blog's style
-- Post title as text on the image
-- Save to `static/img/<post-slug>-og.png`
-- Add `image: "/img/<post-slug>-og.png"` to frontmatter
+For each new post, generate an OG preview image after the tone QA process completes.
 
-The image should be simple — solid or subtle gradient background, post title in a clean font. No stock photos, no clip art, no busy designs.
+#### Generation process
+
+1. Take a headless screenshot of the blog homepage (`chromium --headless --screenshot`) as a style reference.
+
+2. Create a generation folder at `static/img/og-gen/` with a prompt markdown file (`og-prompt.md`) and reference images. The prompt should specify:
+   - 1200x630 (16:9) social card
+   - Deep dark background (#0d1117), like GitHub dark mode
+   - Post title as large, bold, centered white text (the dominant element)
+   - "Johannes' blog" in readable light gray at the bottom center
+   - Teal/cyan (#00d4aa) glowing accent line below the title
+   - Background: ghostly, barely-visible code texture from the actual blog post (real code snippets, not hallucinated). Code must be EXTREMELY dim (watermark-level, ~10-15% brightness). The center where the title sits should be clean dark space. Code texture only in the periphery.
+   - No logos, no icons, no clip art
+   - Strong vignette on edges
+
+3. Use `/generate-with-refs` with the blog screenshot as a reference image. Use `gemini-3-pro-image-preview` model, 2K size, 16:9 aspect.
+
+4. Read the full blog post content and include actual code snippets from the post in the prompt, so the background code is authentic.
+
+#### Review loop
+
+After generation, run a reviewer agent to score the image 1-10 on: readability at thumbnail size, visual appeal, spelling accuracy, background quality (code properly dim, not competing), and overall impression for Reddit/HN. Target 9/10+.
+
+Loop: review → adapt prompt based on feedback → regenerate → review again. Maximum 5 passes or until the reviewer scores 9+. Common issues to watch for:
+- Gemini renders code too bright/readable — use extreme language in the prompt ("BARELY VISIBLE", "ALMOST INVISIBLE", "watermark", "ghost") and describe code as texture/atmosphere, not content
+- Title not centered or competing with background elements
+- Unbalanced composition (one side denser than the other)
+- Spelling errors in the title (especially "rules_js" → "rules_jss")
+
+#### Finalize
+
+Copy the winning image to `static/img/<post-slug>-og.png` and add `image: "/img/<post-slug>-og.png"` to the post's frontmatter.
