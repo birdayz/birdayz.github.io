@@ -292,5 +292,5 @@ One JS bundle, one CSS file. The Go server serves this with SPA fallback: hashed
 
 ## Demo
 
-A working example is at [birdayz/bazel-vite-demo](https://github.com/birdayz/bazel-vite-demo). It's a mock AI chat UI built with AI Elements, bundled by Vite inside Bazel, deployed to GitHub Pages via a GitHub Actions workflow that runs `bazel build`. The [live demo](https://birdayz.github.io/bazel-vite-demo/) uses the Lyra preset with Streamdown for markdown rendering.
+There's a working example at [birdayz/bazel-vite-demo](https://github.com/birdayz/bazel-vite-demo). It's a mock AI chat UI built with AI Elements, bundled by Vite inside Bazel, deployed to GitHub Pages via a GitHub Actions workflow that runs `bazel build`. The [live demo](https://birdayz.github.io/bazel-vite-demo/) uses the Lyra preset with Streamdown for markdown rendering.
 
