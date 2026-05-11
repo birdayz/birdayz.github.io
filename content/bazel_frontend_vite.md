@@ -268,15 +268,10 @@ server: {
 ## What the build graph looks like
 
 ```
-proto_library (*.proto)
-  → buf generate → .pb.ts files (checked in, not in Bazel)
-
 src/**/*.tsx + src/**/*.ts
   → tsgo (type-check, cached, native Go binary)
   → vite build (transpile + bundle via esbuild, cached) → dist/
 ```
-
-Proto codegen is still `buf generate`, not a Bazel action. i could use the experimental `js_proto_toolchain` in rules_js to make proto changes automatically trigger frontend rebuilds, but it's marked unstable and `buf generate` works.
 
 ## The output
 
