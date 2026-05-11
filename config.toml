@@ -52,7 +52,7 @@ github = "birdayz"
 email = "johannes.bruederl@gmail.com"
 linkedin = "johannes-brüderl-325663b3"
 xing = "Johannes_Bruederl"
-facebook = "ribice"
+facebook = ""
 instagram = ""
 codepen = ""
 rss = "index.xml" # Add this to show RSS button in social.
@@ -61,18 +61,6 @@ cv = "https://docs.google.com/document/d/1WiBnj7C-rgTfPN60yUWxQVwueiJniPGrRJ3J0J
 [params.social.config]
 platforms = ["github","email","linkedin","xing"]
 
-[params.matomoAnalytics]
-siteID = 1
-rootURL = "//matomo.example.com/"
-
-[params.fathomAnalytics]
-rootURL = "//fathom.example.com/"
-
-[params.hotjarAnalytics]
-hjid = 1
-
-[params.plausibleAnalytics]
-domain = "ribice.ba"
 
 [taxonomies]
 tag ="tags"

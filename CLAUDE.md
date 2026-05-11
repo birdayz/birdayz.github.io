@@ -4,7 +4,7 @@ Personal technical blog. Hugo site.
 
 ## Writing tone
 
-Lowercase "i" always. No em-dashes (—), use commas, periods, or restructure. Direct, technical, not performative. State facts and opinions flatly. Don't announce what the post will cover. Don't summarize at the end. Don't hedge or qualify. Don't try to be punchy or quotable. Don't balance both sides diplomatically. Just explain the thing and move on.
+No em-dashes (—), use commas, periods, or restructure. Direct, technical, not performative. State facts and opinions flatly. Don't announce what the post will cover. Don't summarize at the end. Don't hedge or qualify. Don't try to be punchy or quotable. Don't balance both sides diplomatically. Just explain the thing and move on.
 
 The reader is a competent engineer. Don't hand-hold, don't reassure ("don't worry about X"), don't over-explain things they'd already know.
 
