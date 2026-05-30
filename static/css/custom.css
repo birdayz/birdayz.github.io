@@ -30,36 +30,145 @@ h6:hover .heading-anchor {
   opacity: 1;
 }
 
-.highlight {
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  margin: 1.5em 0;
+/* ---- Code blocks ---- */
+.content .highlight {
+  position: relative;
+  margin: 1.75em 0;
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 10px 28px rgba(13, 17, 23, 0.12);
   overflow: hidden;
 }
 
-.highlight > div {
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.highlight pre {
+.content .highlight .chroma {
+  background: transparent;
   margin: 0;
+}
+
+.content .highlight pre {
+  margin: 0;
+  padding: 1.05rem 1.25rem;
+  background: transparent;
+  border: 0;
   border-radius: 0;
-  padding: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.highlight table {
-  width: 100%;
+.content .highlight pre,
+.content .highlight code {
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, "Source Code Pro",
+    Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  -moz-tab-size: 4;
+  tab-size: 4;
 }
 
-.highlight td:first-child {
-  width: 1px;
+.content .highlight code,
+.content .highlight pre code {
+  padding: 0;
+  background: transparent;
+  color: #e6edf3;
+  font-size: inherit;
+  line-height: inherit;
+  border: 0;
 }
 
-.highlight td:first-child pre {
-  padding: 16px 0 16px 16px;
+/* inline line numbers: dimmed, fixed gutter, not selectable or copyable */
+.content .highlight .ln {
+  display: inline-block;
+  width: 2.2em;
+  margin-right: 1.1em;
+  padding-right: 0.9em;
+  border-right: 1px solid #1f2630;
+  color: #4c5663;
+  text-align: right;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.highlight td:last-child pre {
-  padding: 16px 20px;
+/* slim scrollbar inside code blocks */
+.content .highlight pre::-webkit-scrollbar {
+  height: 10px;
+}
+.content .highlight pre::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 10px;
+  border: 3px solid #0d1117;
+}
+.content .highlight pre::-webkit-scrollbar-thumb:hover {
+  background: #3f4754;
+}
+
+/* copy button: a label seamlessly tucked into the block's top-right corner.
+   .highlight has overflow:hidden, so top:0/right:0 is clipped to the block's
+   rounded corner and the tab reads as part of the frame. */
+.content .highlight .copy-code-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 0.32rem 0.62rem;
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+    monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #8b949e;
+  background: #161b22;
+  border: 0;
+  border-left: 1px solid #21262d;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.content .highlight .copy-code-button:hover,
+.content .highlight .copy-code-button:focus-visible,
+.content .highlight .copy-code-button.copied {
+  color: #07241e;
+  background: #00d4aa;
+  border-color: #00d4aa;
+  outline: none;
+}
+
+/* fallback: a fenced block with no language renders as a bare <pre> (no
+   Chroma wrapper). Keep it visually identical to highlighted blocks. */
+.content pre:not(.chroma) {
+  margin: 1.75em 0;
+  padding: 1.05rem 1.25rem;
+  background: #0d1117;
+  color: #e6edf3;
+  border: 1px solid #21262d;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 10px 28px rgba(13, 17, 23, 0.12);
+  overflow-x: auto;
+}
+.content pre:not(.chroma) code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+/* inline code */
+.content p > code,
+.content li > code,
+.content td > code,
+.content > code {
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, "Source Code Pro",
+    Menlo, Consolas, monospace;
+  font-size: 0.86em;
+  padding: 0.12em 0.4em;
+  margin: 0 1px;
+  background: #f3f5f7;
+  border: 1px solid #e4e8ec;
+  border-radius: 6px;
+  color: #1f2933;
 }

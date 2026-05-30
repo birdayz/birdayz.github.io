@@ -12,8 +12,10 @@ ignoreLogs = ['warning-goldmark-raw-html']
 
 [markup.highlight]
   lineNos = true
-  lineNumbersInTable = true
-  style = "monokai"
+  lineNumbersInTable = false
+  noClasses = false
+  style = "github-dark"
+  tabWidth = 4
 
 [params.rss] # Adding this tag enables RSS feed
 includeContent = true # Includes whole content in rss
@@ -21,7 +23,7 @@ authorName = "Johannes Bruederl" # Author full name
 authorEmail = "johannes.bruederl@gmail.com" # Author email
 
 [params.assets]
-customCSS = ["css/custom.css"]
+customCSS = ["css/syntax.css", "css/custom.css"]
 googleFonts = []
 
 [params.info]
