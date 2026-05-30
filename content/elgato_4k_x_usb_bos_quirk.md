@@ -1,7 +1,7 @@
 ---
 title: "Recording 4K60 on Linux is now easy (my first kernel patch)"
 date: 2026-05-30T11:00:00+02:00
-draft: true
+draft: false
 tags: [linux,kernel,usb,obs]
 image: "/img/elgato-4k-x-usb-bos-quirk-og.png"
 ---
