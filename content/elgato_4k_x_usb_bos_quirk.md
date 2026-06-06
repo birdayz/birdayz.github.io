@@ -1,12 +1,12 @@
 ---
-title: "Recording 4K60 on Linux is now easy (my first kernel patch)"
+title: "Capturing 4K60 on Linux is now easy (my first kernel patch)"
 date: 2026-05-30T11:00:00+02:00
 draft: false
 tags: [linux,kernel,usb,obs]
 image: "/img/elgato-4k-x-usb-bos-quirk-og.jpg"
 ---
 
-Recording 4K60 on Linux used to be a mess. As of Linux 6.19 you plug in an [Elgato 4K X](https://www.elgato.com/us/en/p/game-capture-4k-x), open OBS, and get clean 4K60 with the in-kernel driver and no extra software. What fixed it is a small USB quirk i got into the kernel.
+Capturing 4K60 on Linux used to be a mess. As of Linux 6.19 you plug in an [Elgato 4K X](https://www.elgato.com/us/en/p/game-capture-4k-x), open OBS, and get clean 4K60 with the in-kernel driver and no extra software. What fixed it is a small USB quirk i got into the kernel.
 
 i needed this for my daughter Karolina's YouTube channel, [Karo's Gaming World](https://www.youtube.com/@KarosGamingWorld), which records clean 4K60 Nintendo gameplay. Shameless plug: if you like that kind of thing, leave her a sub. :)
 
